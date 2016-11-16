@@ -1,0 +1,20 @@
+{
+  "name": "space_tff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "run": "node ./bin/www",
+    "test": "jasmine-node calculation-spec.js --verbose"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "nodemon": "^1.11.0",
+    "nunjucks": "^2.5.2"
+  }
+}

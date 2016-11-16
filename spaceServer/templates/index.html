@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Mars journey</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/customcss/index.css">
+</head>
+<body class="container">
+        <h1>Population Growth</h1>
+        {% if param %} {% include 'control.html' ignore missing %} {% endif %}
+        
+        {% if popGrowth %}{% include 'tabledisplay.html' ignore missing %} {% endif %}
+        <br>
+</body>

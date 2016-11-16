@@ -1,0 +1,39 @@
+
+  <div>
+    <div class="table_header">
+        <div class="col-xs-1"> Trip </div>
+        <div class="col-xs-2"> Mars Pop </div>
+        <div class="col-xs-2"> Earth Fleet </div>
+        <div class="col-xs-2"> Mars fleet </div>
+        <div class="col-xs-1"> shipLoss </div>
+        <div class="col-xs-2"> Death </div>
+        <div class="col-xs-2"> Total Death </div>
+
+    </div>
+    <div class="fix_table_container">
+      {% for trip in popGrowth %}
+      <div class="row">
+        <div class="col-xs-1">{{ loop.index }}</div>
+        <div class="col-xs-2">{{ trip.martian }}</div>
+        <div class="col-xs-2">{{ trip.earthFleet | length }}</div>
+        <div class="col-xs-2">{{ trip.marsFleet | length }}</div>
+        <div class="col-xs-1">{{ trip.shipLoss }}</div>
+        <div class="col-xs-2">
+          <ul>
+            {% if trip.totKilledIn.earthTakeOff %} <li>Earth TakeOff: {{ trip.totKilledIn.earthTakeOff }}</li> {% endif %}
+            {% if trip.totKilledIn.marsTakeOff %} <li>Mars TakeOff: {{ trip.totKilledIn.marsTakeOff }}</li> {% endif %}
+
+            {% if trip.totKilledIn.journeyToEarth %} <li>Journey To Earth: {{ trip.totKilledIn.journeyToEarth }}</li> {% endif %}
+            {% if trip.totKilledIn.journeyToMars %} <li>Journey To Mars: {{ trip.totKilledIn.journeyToMars }}</li> {% endif %}
+
+            {% if trip.totKilledIn.landingEarth %} <li>Earth landing: {{ trip.totKilledIn.landingEarth }}</li> {% endif %}
+            {% if trip.totKilledIn.landingMars %} <li>Mars landing: {{ trip.totKilledIn.landingMars }}</li> {% endif %}
+
+            {% if trip.totKilledIn.refueling %} <li>Refueling: {{ trip.totKilledIn.refueling }}</li> {% endif %}
+          </ul>
+        </div>
+        <div class="col-xs-2">{{ trip.cummulativeLife }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>

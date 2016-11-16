@@ -1,0 +1,18 @@
+.fix_table_container {
+    height: 300px;
+    overflow-y: scroll;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #5e5e5e;
+    padding-left: 10px;
+}
+
+.table_header div {
+  background: #5e5e5e;
+  font-weight: bold;
+  border: 1px;
+  border-color: #5e5e5e;
+  color: white;
+}
+
+.row:nth-child(even) {background: #CCC}
