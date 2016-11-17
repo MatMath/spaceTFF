@@ -182,7 +182,7 @@ improveParam = (param) => {
 };
 
 calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
-  console.log("Iter", startingData.length - 1, startingData[startingData.length - 1].martian);
+  // console.log("Iter", startingData.length - 1, startingData[startingData.length - 1].martian);
   if (!maxNbr || !maxNbr) {
     // Only 0+ If you put negative nbr you deserve the stackoverflow ;).
     console.log("missing arguments"); //I should really add a logger at this point.
@@ -190,13 +190,11 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
   }
   // Note: Nbr of cycle is the array length (Not nbr of years because we launch each launch window.)
   if (startingData.length >= maxIter || startingData[startingData.length - 1].martian >= maxNbr) {
-    // console.log("Stopped at martian #: ", startingData.length, maxIter, startingData[startingData.length - 1].martian, maxNbr);
+    //console.log("Stopped at martian #: ", startingData.length, maxIter, startingData[startingData.length - 1].martian, maxNbr);
     return startingData;
   }
 
   // Before we Push the next row:
-  const lastYearTotLoss =
-
   startingData.push(calc.calcOneYear(startingData[startingData.length - 1], param));
   startingData[startingData.length - 1].cummulativeLife += startingData[startingData.length - 2].cummulativeLife;
   // startingData[startingData.length - 1].shipLoss += startingData[startingData.length - 2].shipLoss;
@@ -204,6 +202,7 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
   if(calc.shouldItFail(1, 1 - param.probIncreaseProdOfIts)) {
       shipProduction += param.itsIncreaseOf;
   }
+  startingData[startingData.length - 1].currentYearItsProd = shipProduction;
   for (var i = 0; i < shipProduction; i++) {
     startingData[startingData.length - 1].earthFleet.push(data.newShip());
   }

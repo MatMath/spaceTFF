@@ -12,7 +12,8 @@ data.blankYear = () => {
    marsFleet: [],
    totKilledIn: {},
    shipLoss: 0,
-   cummulativeLife: 0
+   cummulativeLife: 0,
+   currentYearItsProd: 0
  });
 };
 

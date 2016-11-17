@@ -45,6 +45,7 @@ sumObj = ( obj ) => {
      parameters.refuilingDefect = 0;
      parameters.landingFaillure = 0;
      parameters.touristRatio = 0;
+     parameters.probIncreaseProdOfIts = 0;
    });
 
    it('Should return a random number', () => {
@@ -211,6 +212,8 @@ sumObj = ( obj ) => {
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
     //  Start with 1, then 1 return, we add 10 = 11 --> Mars should have 11 landed.
      expect(lastYear.marsFleet.length).toEqual(11);
+    //  We increase of 10 per year and we do 3 time so 1,11,21
+     expect(lastYear.currentYearItsProd).toEqual(21);
 
    });
 
