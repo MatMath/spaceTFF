@@ -3,12 +3,13 @@ import React from 'react'
 import GraphBar from './graphBar.jsx'
 import styles from './lineGraph.scss'
 
-var imputArray = [
-  [5,6,7,12],
-  [5,2,10,2],
-  [5,20,7,12]
-];
-var labelArray = [{label:'Item 1 to display', max:12, color:'red'}, {label:'Item 2 to display', max:10, color:'blue'}, {label:'Item 3 to display', max:20, color:'pink'}]
+// EXEMPLE of input:
+// var imputArray = [
+//   [5,6,7,12],
+//   [5,2,10,2],
+//   [5,20,7,12]
+// ];
+// var labelArray = [{label:'Item 1 to display', max:12, color:'red'}, {label:'Item 2 to display', max:10, color:'blue'}, {label:'Item 3 to display', max:20, color:'pink'}]
 var svgHeight = 600;
 var svgWidth = 800;
 var xPadding = 100;
@@ -22,21 +23,22 @@ export default class GenericBarGraph extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      arrayOfArray: this.getCoordonateOfData(imputArray),
-      maximum: this.getInputmax(labelArray),
-      labelList: this.getInputLabels(labelArray),
-      xAxisGrid: this.getXAxisGrid(imputArray[0].length),
-      yAxisGrid: this.getYAxisGrid(this.getInputmax(labelArray)),
+      arrayOfArray: this.getCoordonateOfData(this.props.imputArray),
+      maximum: this.getInputmax(this.props.imputArray),
+      labelArray: this.props.labelArray,
+      xAxisGrid: this.getXAxisGrid(this.props.imputArray[0].length),
+      yAxisGrid: this.getYAxisGrid(this.getInputmax(this.props.imputArray)),
       axis:{
-        x: 'Period',
-        y: '# Loss'
+        x: this.props.xaxis,
+        y: this.props.yaxis
       },
-      title: 'Ship Loss over time'
+      title: this.props.title
     }
   }
   getCoordonateOfData(imputArray) {
+    console.log('getCoordonateOfData:', imputArray);
     let maximumIteration = imputArray[0].length; // SO we have the same Maximum as the xAxisGrid
-    let MaxValue = this.getInputmax(labelArray);
+    let MaxValue = this.getInputmax(imputArray);
     return imputArray.map((subArrayOfData) =>{
       return subArrayOfData.map((point, index) => {
         // Remember yZero Start at a higher value so we substract the coordonate to it.
@@ -48,13 +50,15 @@ export default class GenericBarGraph extends React.Component {
       })
     })
   }
-  getInputmax(labelArray) {
+  getInputmax(imputArray) {
+    console.log('GetInputMax:', imputArray);
       var max = 0;
-      let arrOfMax = labelArray.map((arrX) => {
-        console.log('max : ', arrX, arrX.max);
-        if (arrX.max > max) {
-          max = arrX.max;
-        }
+      let arrOfMax = imputArray.map((arrX) => {
+        // console.log('max : ', arrX, arrX.max);
+        console.log('Before Max', arrX);
+        let currentMax = Math.max(...arrX);
+        console.log('currentMax:',currentMax);
+        if (currentMax > max) {max = currentMax;}
       });
       return max;
   }
@@ -82,17 +86,11 @@ export default class GenericBarGraph extends React.Component {
         label: parseInt(maximum / 5 * i * 10)/10
       });
     }
-    console.log('YAxisValue: ',YAxisValue, maximum);
+    // console.log('YAxisValue: ',YAxisValue, maximum);
     return YAxisValue;
   }
-  getInputLabels(labelArray) {
-    return labelArray.map((arrX) => {
-      console.log('Label List : ', arrX.label);
-      return arrX.label;
-    })
-  }
   render() {
-    const {arrayOfArray, maximum, labelList, axis, title, xAxisGrid, yAxisGrid} = this.state;
+    const {arrayOfArray, maximum, labelArray, axis, title, xAxisGrid, yAxisGrid} = this.state;
     return(<div>
       <br></br>
       <svg version="1.2" className={`${styles.graph}`} style={{height: svgHeight+'px', width: svgWidth+'px'}} aria-labelledby="title" role="img">
@@ -120,13 +118,6 @@ export default class GenericBarGraph extends React.Component {
           )
         })}
       </svg>
-      <h2>Success with {arrayOfArray.length}, {maximum}, {labelList[0]}</h2>
-      {/* {arrayOfArray[0].map((dataSequence, index) => {
-        return (<div key={index}>
-          {dataSequence}
-          </div>)
-      })} */}
-
-      </div>)
+    </div>)
   }
 }

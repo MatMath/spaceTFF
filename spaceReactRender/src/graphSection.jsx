@@ -111,7 +111,12 @@ export default class GraphSection extends React.Component {
 
         {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></BarGraph>}
         {displayGraph == 'pieChart' && <PieChart deathRatio={deathRatio}></PieChart>}
-        {displayGraph == 'shipLoss' && <GenericDotGraph shipLossArray={shipLossArray}></GenericDotGraph>}
+        {displayGraph == 'shipLoss' && <GenericDotGraph
+          imputArray={[shipLossArray]}
+          labelArray={[{label:'Ship Loss', color:'red'}]}
+          xaxis='Period'
+          yaxis='# Loss'
+          title='Ship Loss over time'></GenericDotGraph>}
       </div>
     )
   }
