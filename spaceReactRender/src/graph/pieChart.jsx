@@ -91,7 +91,7 @@ import GraphBar from './graphBar.jsx'
     const maximum = 500 / this.arrayMaxValue(sectors);
     return (<div className='row'>
         <div id='PieChart' className="col-sm-6">
-          <svg style={{width: 230+'px', 'height': 230+'px'}}>
+          <svg className={styles.svg_round} style={{width: 230+'px', 'height': 230+'px'}}>
             {sectors.map((item, index) => {
               return (<path key={index} fill={item.color} d={`M${radius},${radius} L${radius},0 A${radius},${radius} 0 ${item.arcSweep},1 ${item.X}, ${item.Y} z`} transform={`rotate(${item.R}, ${radius}, ${radius})`}></path>)
             })}
