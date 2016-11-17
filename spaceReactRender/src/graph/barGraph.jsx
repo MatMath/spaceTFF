@@ -40,8 +40,8 @@ export default class BarGraph extends React.Component {
       maxMartianBckup = this.state.checked.SavedPopulation ? this.props.savedBackup[this.props.savedBackup.length - 1].martian : 0;
       maxDeathBckup = this.state.checked.SavedDeath ? this.props.savedBackup[this.props.savedBackup.length - 1].cummulativeLife : 0;
     }
-    // Strangely the "Math.max([maxMartian, maxDeath, maxMartianBckup, maxDeathBckup])" dosent work.
-    let maxPop = Math.max(Math.max(maxMartian, maxDeath), Math.max(maxMartianBckup, maxDeathBckup));
+
+    let maxPop = Math.max(...[maxMartian, maxDeath, maxMartianBckup, maxDeathBckup]);
     console.log('maxPop:', maxPop);
     let maximumWidthRatio = 500/maxPop;
     let graphSeparator = Math.round(maxPop/5/100)*100; //Round to the hundrer by basic.
