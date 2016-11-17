@@ -28,24 +28,38 @@ export default class GraphSection extends React.Component {
       deathRatio: this.deathRatio(this.props.resultOfgrowth),
       display: 'Yes',
       shipLossArray: [],
+      shipProduction: [],
+      fleetSize: [],
       displayGraph: ''
     }
     this.growthVsDeath = this.growthVsDeath.bind(this);
     this.pieChart = this.pieChart.bind(this);
     this.shipLoss = this.shipLoss.bind(this);
+    this.prodIncrease = this.prodIncrease.bind(this);
   }
-  growthVsDeath() {
-    this.setState({displayGraph:'growthVsDeath'});
-  }
-  pieChart() {
-    this.setState({displayGraph:'pieChart'});
-  }
+  growthVsDeath() { this.setState({displayGraph:'growthVsDeath'}); }
+  pieChart() { this.setState({displayGraph:'pieChart'}); }
   shipLoss() {
     let shipLossArray = this.props.resultOfgrowth.map((item)=>{
       return item.shipLoss;
     })
+    let fleetSize = this.props.resultOfgrowth.map((item)=>{
+      return item.earthFleet.length + item.marsFleet.length;
+    })
     this.setState({displayGraph:'shipLoss'});
-    this.setState({shipLossArray: shipLossArray});
+    this.setState({
+      shipLossArray: shipLossArray,
+      fleetSize: fleetSize
+    });
+  }
+  prodIncrease() {
+    console.log('Results: ',this.props.resultOfgrowth);
+    let shipProduction = this.props.resultOfgrowth.map((item)=>{
+      return item.currentYearItsProd;
+    })
+    console.log('shipProduction', shipProduction);
+    this.setState({displayGraph: 'prodIncrease'});
+    this.setState({shipProduction: shipProduction});
   }
   deathRatio(data) {
     let arrToreturn = [];
@@ -98,7 +112,7 @@ export default class GraphSection extends React.Component {
     return arrToreturn;
   }
   render() {
-    const {display, resultOfgrowth, displayGraph, savedBackup, deathRatio, shipLossArray} = this.state;
+    const {display, resultOfgrowth, displayGraph, savedBackup, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
     return (
       <div>
         Graph that could be fun:
@@ -106,17 +120,23 @@ export default class GraphSection extends React.Component {
           <li onClick={this.growthVsDeath}>Population Growth vs Death occurence</li>
           <li onClick={this.pieChart}>Type of death with ratio</li>
           <li onClick={this.shipLoss}>Number of ship loss over time</li>
-          <li>Ship production increase over time</li>
+          <li onClick={this.prodIncrease}>Ship production increase over time</li>
         </ul>
 
         {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></BarGraph>}
         {displayGraph == 'pieChart' && <PieChart deathRatio={deathRatio}></PieChart>}
         {displayGraph == 'shipLoss' && <GenericDotGraph
-          imputArray={[shipLossArray]}
-          labelArray={[{label:'Ship Loss', color:'red'}]}
+          imputArray={[shipLossArray, fleetSize]}
+          labelArray={[{label:'Ship Loss', color:'red'}, {label:'Fleet Size', color:'blue'}]}
           xaxis='Period'
           yaxis='# Loss'
           title='Ship Loss over time'></GenericDotGraph>}
+        {displayGraph == 'prodIncrease' && <GenericDotGraph
+          imputArray={[shipProduction]}
+          labelArray={[{label:'Ship Production', color:'blue'}]}
+          xaxis='Period'
+          yaxis='Production'
+          title='Ship Production over time'></GenericDotGraph>}
       </div>
     )
   }
