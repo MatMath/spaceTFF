@@ -9,12 +9,13 @@ var app = express();
 app.use(bodyParser.json());
 
 var _templates = process.env.NODE_PATH ? process.env.NODE_PATH + '/templates' : 'templates' ;
-nunjucks.configure(_templates, {
-    autoescape: true,
-    express: app
+//Nunjucks setup
+nunjucks.configure('views', {
+	autoescape: true,
+	express: app
 });
-app.engine( 'html', nunjucks.render );
-app.set( 'view engine', 'html' );
+app.set('view engine', 'nunjucks');
+
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use('/customcss', express.static(__dirname + '/customcss'));
 app.use(cors());
@@ -39,7 +40,7 @@ app.post('/results', (req, res) => {
   if (!iter || iter < 0 || iter > 1000) { iter = 50; }
   let maxPop = askedParam.maxPop || 1000000;
   if (!maxPop || maxPop < 1 || maxPop > 10000000) { maxPop = 1000000; }
-  
+
   let initialCondition = dataStructure.blankYear();
   res.json(calc.iterateThat([initialCondition], askedParam, iter, maxPop, 1));
 });
@@ -68,7 +69,7 @@ app.get('/', (req, res) => {
         // }
 
   let popGrowth = calc.iterateThat([initialCondition], param, 10, 10000, 1);
-  res.render('index', {
+  res.render('index.html', {
     popGrowth: popGrowth,
     param: param,
     initialCondition: [initialCondition]
