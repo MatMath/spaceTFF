@@ -8,7 +8,6 @@ var cors = require('cors');
 var app = express();
 app.use(bodyParser.json());
 
-var _templates = process.env.NODE_PATH ? process.env.NODE_PATH + '/templates' : 'templates' ;
 //Nunjucks setup
 nunjucks.configure('views', {
 	autoescape: true,
