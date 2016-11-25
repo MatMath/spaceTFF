@@ -6,7 +6,7 @@ import React from 'react'
 import TableDisplay from './tableDisplay.jsx'
 import HelpComponentList from './helpComponent.jsx'
 import GraphSection from './graphSection.jsx'
-let localAddress = process.env.PORT || 'http://localhost'
+let localAddress = process.env.LOCALADD || 'http://localhost'
 
 function getGrowth(param, callback) {
 console.log("fetching param");
