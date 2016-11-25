@@ -6,10 +6,11 @@ import React from 'react'
 import TableDisplay from './tableDisplay.jsx'
 import HelpComponentList from './helpComponent.jsx'
 import GraphSection from './graphSection.jsx'
+let localAddress = process.env.PORT || 'http://localhost'
 
 function getGrowth(param, callback) {
 console.log("fetching param");
-  fetch('http://localhost:1701/results',{
+  fetch(localAddress+':1701/results',{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
