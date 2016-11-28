@@ -10,11 +10,12 @@ import styles from './lineGraph.scss'
 //   [5,20,7,12]
 // ];
 // var labelArray = [{label:'Item 1 to display', max:12, color:'red'}, {label:'Item 2 to display', max:10, color:'blue'}, {label:'Item 3 to display', max:20, color:'pink'}]
-var svgHeight = 600;
-var svgWidth = 800;
+var svgHeight = 500;
+var svgWidth = 900;
 var xPadding = 100;
-var yToppadding = 15;
-var graphWidth = svgWidth - xPadding; //padding needed for Label
+var yToppadding = 50;
+var LabelsWidth = 150;
+var graphWidth = svgWidth - xPadding - LabelsWidth; //padding needed for Label
 var graphHeight = svgHeight - 100; //padding needed
 var yZero = graphHeight - 30; //padding needed for Text
 
@@ -94,16 +95,16 @@ export default class GenericBarGraph extends React.Component {
     return(<div>
       <br></br>
       <svg version="1.2" className={`${styles.graph}`} style={{height: svgHeight+'px', width: svgWidth+'px'}} aria-labelledby="title" role="img">
-        <title id="title">{title}</title>
+        <text x={xPadding + graphWidth/3} y={yToppadding/2} id="title" className={`${styles.label_title}`}>{title}</text>
         <g className={`${styles.grid} ${styles.x_grid}`} id="xGrid">
-          <line x1="90" x2="90" y1="5" y2={yZero}></line>
+          <line x1="90" x2="90" y1={yToppadding - 5} y2={yZero}></line>
         </g>
         <g className={`${styles.grid} ${styles.y_grid}`} id="yGrid">
           <line x1="90" x2={graphWidth} y1={yZero} y2={yZero}></line>
         </g>
           <g className={`${styles.labels} ${styles.x_labels}`}>
           {xAxisGrid.map((item) => { return (<text key={item.label} x={item.x} y={graphHeight}>{item.label}</text>) })}
-          <text x={graphHeight} y={graphHeight + 40} className={`${styles.label_title}`}>{axis.x}</text>
+          <text x={(graphWidth+ xPadding) / 2} y={graphHeight + 40} className={`${styles.label_title}`}>{axis.x}</text>
         </g>
         <g className={`${styles.labels} ${styles.y_labels}`}>
           {yAxisGrid.map((item) => { return (<g key={item.label}>
@@ -123,6 +124,10 @@ export default class GenericBarGraph extends React.Component {
             </g>
           )
         })}
+        {labelArray.map((item, index) => {
+          return(<text key={index} x={graphWidth + 10} y={svgHeight / 3 + 20*index} style={{fill: item.color}} className={`${styles.label_title}`}>{item.label}</text>);
+        })}
+
       </svg>
     </div>)
   }
