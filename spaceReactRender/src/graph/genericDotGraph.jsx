@@ -106,7 +106,11 @@ export default class GenericBarGraph extends React.Component {
           <text x={graphHeight} y={graphHeight + 40} className={`${styles.label_title}`}>{axis.x}</text>
         </g>
         <g className={`${styles.labels} ${styles.y_labels}`}>
-          {yAxisGrid.map((item) => { return (<text key={item.label} x="80" y={item.y}>{item.label}</text>) })}
+          {yAxisGrid.map((item) => { return (<g key={item.label}>
+            <text x="80" y={item.y}>{item.label}</text>
+            <line className={`${styles.grid} ${styles.x_grid}`} x1="90" x2={graphWidth} y1={item.y} y2={item.y}></line>
+            </g>
+          ) })}
           <svg x="30" y={graphHeight / 2} width="100" height="100">
             <text dominantBaseline="text-before-edge" transform="rotate(-90)" className={`${styles.label_title}`}>{axis.y}</text>
           </svg>
