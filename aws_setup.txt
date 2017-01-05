@@ -1,0 +1,27 @@
+So many time it fail because I don't do it every day, so this is MY procedure and hint about AWS complexity.
+
+Start a new AWS EC2 instance (better to start with a pre-made image):
+- NOTE You must have the Key on the Computer somewhere. If you download a NEW key do a "chmod 400 keyname.pem" to make it readonly.
+If "ssh -i aws-key.pem ubuntu@12.345.67.89" dosen't work try: "ssh -i aws-key.pem ec2-user@12.345.67.89"
+
+Security groups: Make sure sure Security group you want to use have TCP Port Open on the Port# you have:
+Custom TCP Rule  / TCP / 8888 / "0.0.0.0/0"
+
+If (success) and brand new server then
+Follow --> http://iconof.com/blog/how-to-install-setup-node-js-on-amazon-aws-ec2-complete-guide/#updateEC2
+
+If a Pre-made Bitnami server:
+Some Info: https://docs.bitnami.com/virtual-machine/infrastructure/nodejs/
+Stopping the Birnami server: $sudo /opt/bitnami/ctlscript.sh stop
+
+Setup the Env variable for the server:
+export PORTSERVER=1701
+
+Express:
+export PORT=8888
+export LOCALADD=http://54.161.166.149
+
+$ npm install forever -g
+Go in the spaceServer and run: npm install; forever ./bin/www
+Go in the spaceReactRender and run: npm install; npm build; npm server  (OR: $ static -a 0.0.0.0 & )
+The server address "env.LOCALADD" might not work so check that.

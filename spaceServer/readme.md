@@ -1,3 +1,2 @@
-Why?
-
-I always want to calculate space stuff that intrigue me but instead of doing it in my head or via excel, why not graph them.
+# SpaceServer
+Just a node server that serve some data when asked. Yes It can be calculated in the front-end by react, but where is the fun in that?
