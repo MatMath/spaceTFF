@@ -37,3 +37,9 @@ Path options:
 
 ## Application: "spaceReactRender"
 UI to allow you to control the data and make experiment and to see the analytics of it and also compare a run to a previous one.
+
+## Not considered
+Some aspect are not considered in the model that can be added easily in the recursion like:
+- Normal population growth (baby)
+- Accidental death
+- Normal death (age, diseases, radiation, Predator ;)

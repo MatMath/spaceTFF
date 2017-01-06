@@ -6,11 +6,12 @@ import React from 'react'
 import TableDisplay from './tableDisplay.jsx'
 import HelpComponentList from './helpComponent.jsx'
 import GraphSection from './graphSection.jsx'
-let localAddress = process.env.LOCALADD || 'http://localhost'
+let localAddress = process.env.API_HTTP_SERVER;
+// The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 function getGrowth(param, callback) {
 console.log("fetching param");
-  fetch(localAddress+':1701/results',{
+  fetch(localAddress+'/results',{
     method: 'POST',
     headers: {
       'Accept': 'application/json',

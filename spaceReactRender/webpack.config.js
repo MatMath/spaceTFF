@@ -6,6 +6,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
+const API_PORT = process.env.API_PORT || 1701;
+const AWS_SERVER = process.env.AWS_SERVER || 'http://54.161.166.149:';
 
 // global css
 loaders.push({
@@ -72,6 +74,11 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/template.html'
+		}),
+		new webpack.DefinePlugin({
+			'process.env': {
+				API_HTTP_SERVER: JSON.stringify(AWS_SERVER + API_PORT)
+			}
 		}),
 	]
 };

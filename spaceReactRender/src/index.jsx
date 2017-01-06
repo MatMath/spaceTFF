@@ -21,8 +21,8 @@ var fetchedParam = {
   probIncreaseProdOfIts: 0,
   itsIncreaseOf: 1
 };
-const HTTP_SERVER = 'http://localhost:1701';
-
+const HTTP_SERVER = process.env.API_HTTP_SERVER;
+// The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 var startTheApp = () => {
 

@@ -15,7 +15,7 @@ Some Info: https://docs.bitnami.com/virtual-machine/infrastructure/nodejs/
 Stopping the Birnami server: $sudo /opt/bitnami/ctlscript.sh stop
 
 Setup the Env variable for the server:
-export PORTSERVER=1701
+export API_PORT=1701
 
 Express:
 export PORT=8888

@@ -7,7 +7,7 @@
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors --host 0.0.0.0",
     "lint": "eslint --ext js --ext jsx src || exit 0",
-    "server": "static -a 0.0.0.0 &"
+    "server": "static public -a 0.0.0.0 &"
   },
   "repository": {
     "type": "git",

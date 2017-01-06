@@ -6,6 +6,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
+const API_PORT = process.env.API_PORT || 1701;
+const AWS_SERVER = process.env.AWS_SERVER || 'http://54.161.166.149:';
+
 // local css modules
 loaders.push({
 	test: /[\/\\]src[\/\\].*\.css/,
@@ -43,7 +46,8 @@ module.exports = {
 		new WebpackCleanupPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
-				NODE_ENV: '"production"'
+				NODE_ENV: '"production"',
+				API_HTTP_SERVER: JSON.stringify(AWS_SERVER + API_PORT)
 			}
 		}),
 		new webpack.optimize.UglifyJsPlugin({
