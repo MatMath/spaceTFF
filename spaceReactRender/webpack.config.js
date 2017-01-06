@@ -7,7 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 const API_PORT = process.env.API_PORT || 1701;
-const AWS_SERVER = process.env.AWS_SERVER || 'http://54.161.166.149:';
+const AWS_SERVER = process.env.AWS_SERVER || 'http://34.192.176.238:';
 
 // global css
 loaders.push({

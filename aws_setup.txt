@@ -16,12 +16,11 @@ Stopping the Birnami server: $sudo /opt/bitnami/ctlscript.sh stop
 
 Setup the Env variable for the server:
 export API_PORT=1701
-export AWS_SERVER=http://54.161.166.149:
+export AWS_SERVER=http://34.192.176.238:
 (note the : at the end of AWS server)
 
 Express:
 export PORT=8888
-export LOCALADD=http://54.161.166.149
 
 $ npm install forever -g
 Go in the spaceServer and run:
@@ -31,5 +30,3 @@ Go in the spaceReactRender and run:
 - npm install
 - npm run build
 - forever serveStatic.js
-
-The server address "env.LOCALADD" might not work so check that.

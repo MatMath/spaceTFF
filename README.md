@@ -1,5 +1,5 @@
 # spaceTFF
-I always been fascinated about Space exploration and everything around it. Often I just run the calculation on my side and do nothign about it. But Instead I wanted to improve my Node, React, svg skills so why not build it.
+I always been fascinated about Space exploration and everything around it. Often I just run the calculation on my side and do nothign about it. But Instead I wanted to improve my Node, React, svg skills so why not build it. "Currently" working [here](http://34.192.176.238:8080/) .
 
 ## How to run?
 Locally: Go in the 2 folder and run the server and then the front end.
