@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import ReactDOM from 'react-dom';
 import App from './app.jsx';
 import Errorpage from './errorpage';
+
+import { Provider } from "react-redux";  //We render the provider that provide the store to React.
+import store from "./store";
 
 // fallback is the server dosent answer
 var fetchedParam = {
@@ -41,12 +43,12 @@ var startTheApp = () => {
       if (data.persPerShip) {
         fetchedParam = data;
       }
-      render(<App param={fetchedParam}/>, document.querySelector('#app'));
+      render(<provider store={store}> <App param={fetchedParam}/> </provider>, document.querySelector('#app'));
     })
     .catch(function(ex) {
       // Fail to fetch so keep using the default value.
         window.console.log('parsing failed', ex);
-        ReactDOM.render(<Errorpage />, document.getElementById('app'));
+        render(<Errorpage />, document.getElementById('app'));
       })
   }
 
