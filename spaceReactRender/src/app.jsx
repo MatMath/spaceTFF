@@ -2,12 +2,37 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from './index.scss'
 import React from 'react'
 
+import { connect } from "react-redux"
+
 // modules
 import TableDisplay from './tableDisplay.jsx'
 import HelpComponentList from './helpComponent.jsx'
 import GraphSection from './graphSection.jsx'
 let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
+
+@connect((store) => {
+    // Similar to "state" in React, this will get the Passed value or the default value from the store.
+    return {
+      persPerShip: store.param.paramServer.persPerShip,
+      engineMalfunction: store.param.paramServer.engineMalfunction,
+      refuilingDefect: store.param.paramServer.refuilingDefect,
+      landingFaillure: store.param.paramServer.landingFaillure,
+      reusabilityOfShip: store.param.paramServer.reusabilityOfShip,
+      improvement: store.param.paramServer.improvement,
+      firstStageEngine: store.param.paramServer.firstStageEngine,
+      itsEngine: store.param.paramServer.itsEngine,
+      touristRatio: store.param.paramServer.touristRatio,
+      orbitRefulling: store.param.paramServer.orbitRefulling,
+      probIncreaseProdOfIts: store.param.paramServer.probIncreaseProdOfIts,
+      itsIncreaseOf: store.param.paramServer.itsIncreaseOf,
+      maxPop: store.param.paramRun.maxPop,
+      years: store.param.paramRun.years,
+      resultOfgrowth: store.data.resultOfgrowth,
+      savedBackup: store.data.savedBackup
+    };
+})
+
 
 function getGrowth(param, callback) {
 console.log("fetching param");
@@ -39,23 +64,7 @@ export default class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      persPerShip: this.props.param.persPerShip,
-      engineMalfunction: this.props.param.engineMalfunction,
-      refuilingDefect: this.props.param.refuilingDefect,
-      landingFaillure: this.props.param.landingFaillure,
-      reusabilityOfShip: this.props.param.reusabilityOfShip,
-      improvement: this.props.param.improvement,
-      firstStageEngine: this.props.param.firstStageEngine,
-      itsEngine: this.props.param.itsEngine,
-      touristRatio: this.props.param.touristRatio,
-      orbitRefulling: this.props.param.orbitRefulling,
-      probIncreaseProdOfIts: this.props.param.probIncreaseProdOfIts,
-      itsIncreaseOf: this.props.param.itsIncreaseOf,
-      random:0.1,
-      maxPop: 10000,
-      years: 1000,
-      resultOfgrowth: [],
-      savedBackup: [],
+      random: 0.1,
       shipConfigurationHelp: ['Person per ship: Number of person that fit in each ship.',
       'Reusability of ship: Number of trip a ship can do before being recycled',
       'First Stage Engine: Number of Engine that lift the first stage',
@@ -71,12 +80,15 @@ export default class App extends React.Component {
       'TakeOff/Journey (Each engine)',
       'Decelarating on arrival (Each engine)',
       'Landing on earth']
-    };
+    }
+
+
     this.changeNumberValue = this.changeNumberValue.bind(this);
     this.getGrowthProjection = this.getGrowthProjection.bind(this);
     this.updateThisState = this.updateThisState.bind(this);
     this.saveThisBackup = this.saveThisBackup.bind(this);
   }
+
   changeNumberValue (key, event) {
     // This set the value of the proper Key. Note, Key is the second argument after "this"!?! and event is something else that arrive magically.
     // console.log('key:', key);
@@ -99,8 +111,8 @@ export default class App extends React.Component {
     this.setState({ savedBackup: backup });
   }
   render () {
-    const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.state;
-    const {shipConfigurationHelp, riskListHelp} = this.state;
+    const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;
+    const {shipConfigurationHelp, riskListHelp} = this.state;  //Help files
     return (
       <div className='container'>
 
