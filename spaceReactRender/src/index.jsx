@@ -8,5 +8,5 @@ import Errorpage from './errorpage';
 import { Provider } from "react-redux";  //We render the provider that provide the store to React.
 import store from "./store"; //Where we initialise the Store structure.
 
-render(<provider store={store}> <App/> </provider>, document.querySelector('#app'));
+render(<Provider store={store}> <App /> </Provider>, document.querySelector('#app'));
 // render(<Errorpage />, document.getElementById('app'));

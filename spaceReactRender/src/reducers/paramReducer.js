@@ -16,15 +16,14 @@ export default function reducer(state={
   paramRun: {
     maxPop: 1000,
     years: 100
-  }
+  },
   fetched: false
   }, action) {
     //Switch statement here to change value by value.
     switch (action.type) {
 
       case "FETCHED_SERVERPARAM": {
-        return {
-          ...state,
+        return { ...state,
           fetched: true,
           paramServer: action.payload
         }
@@ -35,11 +34,14 @@ export default function reducer(state={
       }
 
       case "CHANGE_PARAMRUN_POPULATION": {
-        return { ...state, paramRun.maxPop: action.payload }
+        return { ...state, paramRun: { ...state.paramRun, maxPop: action.payload } }
       }
       case "CHANGE_PARAMRUN_YEARS": {
-        return { ...state, paramRun.maxPop: action.payload }
+        return { ...state, paramRun: {...state.paramRun, years: action.payload }}
+      }
+      default : {
+        return {... state};
       }
     }
-    return {... state}; // depending on the swtich get the data here.
+
 }

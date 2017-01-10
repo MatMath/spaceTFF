@@ -3,5 +3,12 @@ export default function reducer(state={
   savedBackup: []
 }, action) {
   // switch statement here
-  return {...state} // depending on the switch modify and return.
+    switch (action.type) {
+      case "SOMETHING" : {
+        return {...state, resultOfgrowth:[]};
+      }
+      default : {
+        return {... state};
+      }
+    }
 }

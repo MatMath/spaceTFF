@@ -11,27 +11,8 @@ import GraphSection from './graphSection.jsx'
 let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
-@connect((store) => {
-    // Similar to "state" in React, this will get the Passed value or the default value from the store.
-    return {
-      persPerShip: store.param.paramServer.persPerShip,
-      engineMalfunction: store.param.paramServer.engineMalfunction,
-      refuilingDefect: store.param.paramServer.refuilingDefect,
-      landingFaillure: store.param.paramServer.landingFaillure,
-      reusabilityOfShip: store.param.paramServer.reusabilityOfShip,
-      improvement: store.param.paramServer.improvement,
-      firstStageEngine: store.param.paramServer.firstStageEngine,
-      itsEngine: store.param.paramServer.itsEngine,
-      touristRatio: store.param.paramServer.touristRatio,
-      orbitRefulling: store.param.paramServer.orbitRefulling,
-      probIncreaseProdOfIts: store.param.paramServer.probIncreaseProdOfIts,
-      itsIncreaseOf: store.param.paramServer.itsIncreaseOf,
-      maxPop: store.param.paramRun.maxPop,
-      years: store.param.paramRun.years,
-      resultOfgrowth: store.data.resultOfgrowth,
-      savedBackup: store.data.savedBackup
-    };
-})
+// Loading actions
+import { changeYears } from "./actions/paramActions"
 
 
 function getGrowth(param, callback) {
@@ -60,6 +41,27 @@ console.log("fetching param");
     })
 }
 
+@connect((store) => {
+    // Similar to "state" in React, this will get the Passed value or the default value from the store.
+    return {
+      persPerShip: store.param.paramServer.persPerShip,
+      engineMalfunction: store.param.paramServer.engineMalfunction,
+      refuilingDefect: store.param.paramServer.refuilingDefect,
+      landingFaillure: store.param.paramServer.landingFaillure,
+      reusabilityOfShip: store.param.paramServer.reusabilityOfShip,
+      improvement: store.param.paramServer.improvement,
+      firstStageEngine: store.param.paramServer.firstStageEngine,
+      itsEngine: store.param.paramServer.itsEngine,
+      touristRatio: store.param.paramServer.touristRatio,
+      orbitRefulling: store.param.paramServer.orbitRefulling,
+      probIncreaseProdOfIts: store.param.paramServer.probIncreaseProdOfIts,
+      itsIncreaseOf: store.param.paramServer.itsIncreaseOf,
+      maxPop: store.param.paramRun.maxPop,
+      years: store.param.paramRun.years,
+      resultOfgrowth: store.data.resultOfgrowth,
+      savedBackup: store.data.savedBackup
+    };
+})
 export default class App extends React.Component {
   constructor (props) {
     super(props);
@@ -81,14 +83,15 @@ export default class App extends React.Component {
       'Decelarating on arrival (Each engine)',
       'Landing on earth']
     }
-
-
     this.changeNumberValue = this.changeNumberValue.bind(this);
     this.getGrowthProjection = this.getGrowthProjection.bind(this);
     this.updateThisState = this.updateThisState.bind(this);
     this.saveThisBackup = this.saveThisBackup.bind(this);
   }
 
+  changeYears (event) {
+    this.props.dispatch(changeYears(event.target.value))
+  }
   changeNumberValue (key, event) {
     // This set the value of the proper Key. Note, Key is the second argument after "this"!?! and event is something else that arrive magically.
     // console.log('key:', key);
@@ -317,7 +320,7 @@ export default class App extends React.Component {
                     min='1'
                     max='1000'
                     value={this.state.years}
-                    onChange={this.changeNumberValue.bind(this, 'years')} />
+                    onChange={this.changeYears.bind(this)} />
                   </div>
               </div>
             </div>
