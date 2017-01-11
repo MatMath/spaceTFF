@@ -1,7 +1,7 @@
-export default function reducer(state={
+const data = (state={
   resultOfgrowth: [],
   savedBackup: []
-}, action) {
+}, action) => {
   // switch statement here
     switch (action.type) {
       case "SOMETHING" : {
@@ -12,3 +12,4 @@ export default function reducer(state={
       }
     }
 }
+export default data;

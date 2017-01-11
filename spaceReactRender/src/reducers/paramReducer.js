@@ -1,4 +1,4 @@
-export default function reducer(state={
+const param = (state={
   paramServer: {
     persPerShip: 100,
     engineMalfunction: 0.01,
@@ -18,10 +18,9 @@ export default function reducer(state={
     years: 100
   },
   fetched: false
-  }, action) {
+}, action) => {
     //Switch statement here to change value by value.
     switch (action.type) {
-
       case "FETCHED_SERVERPARAM": {
         return { ...state,
           fetched: true,
@@ -45,3 +44,5 @@ export default function reducer(state={
     }
 
 }
+
+export default param
