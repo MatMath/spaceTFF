@@ -12,7 +12,7 @@ let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 // Loading actions
-import { changeYears, change_baseParam_paramServer } from "./actions/paramActions"
+import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from "./actions/paramActions"
 
 
 function getGrowth(param, callback) {
@@ -90,15 +90,24 @@ export default class App extends React.Component {
   }
 
   changeYears (event) {
-    this.props.dispatch(changeYears(parseInt(event.target.value)))
+      let value = (isNaN(parseInt(event.target.value)) === true) ? "" : parseInt(event.target.value);
+      this.props.dispatch(changeYears(value))
+  }
+  changeMaxPopulation (event) {
+    let value = (isNaN(parseInt(event.target.value)) === true) ? "" : parseInt(event.target.value);
+    this.props.dispatch(changeMaxPopulation(value))
   }
   changeNumberValue (key, event) {
-    // This set the value of the proper Key. Note, Key is the second argument after "this"!?! and event is something else that arrive magically.
-    // console.log('key:', key);
-    // console.log('event:', event, event.target.value);
-    this.props.dispatch(change_baseParam_paramServer(key, parseFloat(event.target.value)));
-    // this.setState({[key]: parseFloat(event.target.value)});
+    if (key && event.target.value !== undefined) {
+      let value = parseFloat(event.target.value);
+      if(isNaN(value) === true) {
+        // if someone remove the # to input another we endup in NAN so we need to replace to empty value.
+        value = "";
+      }
+      this.props.dispatch(change_baseParam_paramServer(key, value));
+    }
   }
+
   updateThisState(data) {
     this.setState({ random: Math.random() });
     // This is because resultOfgrowth is a deepNestedObject and react dosent catch the change. so I kinda force it like that instead of using this.forceUpdate() or using an extra library "immutable"
@@ -309,7 +318,7 @@ export default class App extends React.Component {
                     step='100'
                     max='5000000'
                     value={maxPop}
-                    onChange={this.changeNumberValue.bind(this, 'maxPop')} />
+                    onChange={this.changeMaxPopulation.bind(this)} />
                   </div>
               </div>
           </div>

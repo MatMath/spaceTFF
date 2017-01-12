@@ -35,6 +35,40 @@ const baseParam = (state={
       case "CHANGE_BASEPARAM_PARAMSERVER_persPerShip": {
         return { ...state, paramServer: { ...state.paramServer, persPerShip: action.payload } }
       }
+      case "CHANGE_BASEPARAM_PARAMSERVER_engineMalfunction": {
+        return { ...state, paramServer: { ...state.paramServer, engineMalfunction: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_refuilingDefect": {
+        return { ...state, paramServer: { ...state.paramServer, refuilingDefect: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_landingFaillure": {
+        return { ...state, paramServer: { ...state.paramServer, landingFaillure: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_reusabilityOfShip": {
+        return { ...state, paramServer: { ...state.paramServer, reusabilityOfShip: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_improvement": {
+        return { ...state, paramServer: { ...state.paramServer, improvement: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_firstStageEngine": {
+        return { ...state, paramServer: { ...state.paramServer, firstStageEngine: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_itsEngine": {
+        return { ...state, paramServer: { ...state.paramServer, itsEngine: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_touristRatio": {
+        return { ...state, paramServer: { ...state.paramServer, touristRatio: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_orbitRefulling": {
+        return { ...state, paramServer: { ...state.paramServer, orbitRefulling: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_probIncreaseProdOfIts": {
+        return { ...state, paramServer: { ...state.paramServer, probIncreaseProdOfIts: action.payload } }
+      }
+      case "CHANGE_BASEPARAM_PARAMSERVER_itsIncreaseOf": {
+        return { ...state, paramServer: { ...state.paramServer, itsIncreaseOf: action.payload } }
+      }
+
       case "CHANGE_PARAMRUN_POPULATION": {
         return { ...state, paramRun: { ...state.paramRun, maxPop: action.payload } }
       }
