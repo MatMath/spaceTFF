@@ -12,7 +12,7 @@ let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 // Loading actions
-import { changeYears } from "./actions/paramActions"
+import { changeYears, change_baseParam_paramServer } from "./actions/paramActions"
 
 
 function getGrowth(param, callback) {
@@ -90,13 +90,14 @@ export default class App extends React.Component {
   }
 
   changeYears (event) {
-    this.props.dispatch(changeYears(event.target.value))
+    this.props.dispatch(changeYears(parseInt(event.target.value)))
   }
   changeNumberValue (key, event) {
     // This set the value of the proper Key. Note, Key is the second argument after "this"!?! and event is something else that arrive magically.
     // console.log('key:', key);
     // console.log('event:', event, event.target.value);
-    this.setState({[key]: parseFloat(event.target.value)});
+    this.props.dispatch(change_baseParam_paramServer(key, parseFloat(event.target.value)));
+    // this.setState({[key]: parseFloat(event.target.value)});
   }
   updateThisState(data) {
     this.setState({ random: Math.random() });
@@ -116,6 +117,7 @@ export default class App extends React.Component {
   render () {
     const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;
     const {shipConfigurationHelp, riskListHelp} = this.state;  //Help files
+    console.log("Props:",this.props);
     return (
       <div className='container'>
 
@@ -138,7 +140,7 @@ export default class App extends React.Component {
                   <input type='number' className='form-control'
                     step='0.01'
                     min='0'
-                    value={this.state.refuilingDefect}
+                    value={refuilingDefect}
                     onChange={this.changeNumberValue.bind(this, 'refuilingDefect')} />
                 </div>
             </div>
@@ -148,7 +150,7 @@ export default class App extends React.Component {
                   <input type='number' className='form-control'
                     step='0.01'
                     min='0'
-                    value={this.state.landingFaillure}
+                    value={landingFaillure}
                     onChange={this.changeNumberValue.bind(this, 'landingFaillure')} />
                 </div>
             </div>
@@ -162,7 +164,7 @@ export default class App extends React.Component {
                     step='0.01'
                     min='0'
                     max='1'
-                    value={this.state.improvement}
+                    value={improvement}
                     onChange={this.changeNumberValue.bind(this, 'improvement')} />
                 </div>
               </div>
@@ -197,7 +199,7 @@ export default class App extends React.Component {
                     step='1'
                     min='0'
                     max='50'
-                    value={this.state.reusabilityOfShip}
+                    value={reusabilityOfShip}
                     onChange={this.changeNumberValue.bind(this, 'reusabilityOfShip')} />
                   </div>
               </div>
@@ -224,7 +226,7 @@ export default class App extends React.Component {
                 <input type='number' className='form-control'
                   min='0'
                   step='1'
-                  value={this.state.itsEngine}
+                  value={itsEngine}
                   onChange={this.changeNumberValue.bind(this, 'itsEngine')} />
                   </div>
               </div>
@@ -253,7 +255,7 @@ export default class App extends React.Component {
                     step='1'
                     min='0'
                     max='50'
-                    value={this.state.orbitRefulling}
+                    value={orbitRefulling}
                     onChange={this.changeNumberValue.bind(this, 'orbitRefulling')} />
                   </div>
               </div>
@@ -286,7 +288,7 @@ export default class App extends React.Component {
                     step='1'
                     min='0'
                     max='50'
-                    value={this.state.itsIncreaseOf}
+                    value={itsIncreaseOf}
                     onChange={this.changeNumberValue.bind(this, 'itsIncreaseOf')} />
                   </div>
               </div>
@@ -319,7 +321,7 @@ export default class App extends React.Component {
                     step='1'
                     min='1'
                     max='1000'
-                    value={this.state.years}
+                    value={years}
                     onChange={this.changeYears.bind(this)} />
                   </div>
               </div>

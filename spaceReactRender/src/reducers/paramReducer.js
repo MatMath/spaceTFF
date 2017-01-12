@@ -32,6 +32,9 @@ const baseParam = (state={
         return { ...state, fetched: false, fetchError: action.payload, error: "Failed to fetch the param, communication problem with the server"}
       }
 
+      case "CHANGE_BASEPARAM_PARAMSERVER_persPerShip": {
+        return { ...state, paramServer: { ...state.paramServer, persPerShip: action.payload } }
+      }
       case "CHANGE_PARAMRUN_POPULATION": {
         return { ...state, paramRun: { ...state.paramRun, maxPop: action.payload } }
       }

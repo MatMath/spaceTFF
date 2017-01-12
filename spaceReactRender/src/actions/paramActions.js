@@ -15,6 +15,14 @@ export function changeYears(years) {
   }
 }
 
+export function change_baseParam_paramServer(key, floatValue) {
+  let type = "CHANGE_BASEPARAM_PARAMSERVER_" + key;
+  return {
+    type: type,
+    payload: floatValue
+  }
+}
+
 export function getServerParam(HTTP_SERVER) {
   return function(dispatch) {
     fetch(HTTP_SERVER+'/param',{
