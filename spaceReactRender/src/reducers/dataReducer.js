@@ -1,4 +1,4 @@
-const data = (state={
+const calculatedData = (state={
   resultOfgrowth: [],
   savedBackup: []
 }, action) => {
@@ -12,4 +12,4 @@ const data = (state={
       }
     }
 }
-export default data;
+export default calculatedData;

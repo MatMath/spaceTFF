@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 
-import param from "./paramReducer"
-import data from "./dataReducer"
+import baseParam from "./paramReducer"
+import calculatedData from "./dataReducer"
 
-const storeData = combineReducers({ param, data });
+const storeData = combineReducers({ baseParam, calculatedData });
 
 export default storeData;

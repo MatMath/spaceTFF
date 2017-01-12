@@ -44,22 +44,22 @@ console.log("fetching param");
 @connect((store) => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
     return {
-      persPerShip: store.param.paramServer.persPerShip,
-      engineMalfunction: store.param.paramServer.engineMalfunction,
-      refuilingDefect: store.param.paramServer.refuilingDefect,
-      landingFaillure: store.param.paramServer.landingFaillure,
-      reusabilityOfShip: store.param.paramServer.reusabilityOfShip,
-      improvement: store.param.paramServer.improvement,
-      firstStageEngine: store.param.paramServer.firstStageEngine,
-      itsEngine: store.param.paramServer.itsEngine,
-      touristRatio: store.param.paramServer.touristRatio,
-      orbitRefulling: store.param.paramServer.orbitRefulling,
-      probIncreaseProdOfIts: store.param.paramServer.probIncreaseProdOfIts,
-      itsIncreaseOf: store.param.paramServer.itsIncreaseOf,
-      maxPop: store.param.paramRun.maxPop,
-      years: store.param.paramRun.years,
-      resultOfgrowth: store.data.resultOfgrowth,
-      savedBackup: store.data.savedBackup
+      persPerShip: store.baseParam.paramServer.persPerShip,
+      engineMalfunction: store.baseParam.paramServer.engineMalfunction,
+      refuilingDefect: store.baseParam.paramServer.refuilingDefect,
+      landingFaillure: store.baseParam.paramServer.landingFaillure,
+      reusabilityOfShip: store.baseParam.paramServer.reusabilityOfShip,
+      improvement: store.baseParam.paramServer.improvement,
+      firstStageEngine: store.baseParam.paramServer.firstStageEngine,
+      itsEngine: store.baseParam.paramServer.itsEngine,
+      touristRatio: store.baseParam.paramServer.touristRatio,
+      orbitRefulling: store.baseParam.paramServer.orbitRefulling,
+      probIncreaseProdOfIts: store.baseParam.paramServer.probIncreaseProdOfIts,
+      itsIncreaseOf: store.baseParam.paramServer.itsIncreaseOf,
+      maxPop: store.baseParam.paramRun.maxPop,
+      years: store.baseParam.paramRun.years,
+      resultOfgrowth: store.calculatedData.resultOfgrowth,
+      savedBackup: store.calculatedData.savedBackup
     };
 })
 export default class App extends React.Component {

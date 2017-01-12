@@ -1,4 +1,4 @@
-const param = (state={
+const baseParam = (state={
   paramServer: {
     persPerShip: 100,
     engineMalfunction: 0.01,
@@ -45,4 +45,4 @@ const param = (state={
 
 }
 
-export default param
+export default baseParam

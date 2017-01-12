@@ -1,4 +1,4 @@
-console.log("Strting Store");
+console.log("Starting Store");
 import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
