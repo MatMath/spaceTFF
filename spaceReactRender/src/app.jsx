@@ -13,33 +13,7 @@ let localAddress = process.env.API_HTTP_SERVER;
 
 // Loading actions
 import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from "./actions/paramActions"
-
-
-function getGrowth(param, callback) {
-console.log("fetching param");
-  fetch(localAddress+'/results',{
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({param:param})
-  })
-  .then(function(res) {
-    // This return the header call of the function, not the data.
-    return res.json();
-  })
-  .then(function(data){
-    console.log('Received Data:', data);
-    if (data) {
-      callback(data);
-    }
-  })
-  .catch(function(ex) {
-    // Fail to fetch so keep using the default value.
-      window.console.log('parsing failed', ex);
-    })
-}
+import { getGrowthProjection } from './actions/fetchActions'
 
 @connect((store) => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
@@ -83,10 +57,8 @@ export default class App extends React.Component {
       'Decelarating on arrival (Each engine)',
       'Landing on earth']
     }
-    this.changeNumberValue = this.changeNumberValue.bind(this);
-    this.getGrowthProjection = this.getGrowthProjection.bind(this);
-    this.updateThisState = this.updateThisState.bind(this);
     this.saveThisBackup = this.saveThisBackup.bind(this);
+    this.getGrowthProjection = this.getGrowthProjection.bind(this);
   }
 
   changeYears (event) {
@@ -107,16 +79,9 @@ export default class App extends React.Component {
       this.props.dispatch(change_baseParam_paramServer(key, value));
     }
   }
-
-  updateThisState(data) {
-    this.setState({ random: Math.random() });
-    // This is because resultOfgrowth is a deepNestedObject and react dosent catch the change. so I kinda force it like that instead of using this.forceUpdate() or using an extra library "immutable"
-    // http://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate
-    this.setState({ resultOfgrowth: data });
-  }
   getGrowthProjection() {
-    this.state.resultOfgrowth = [];
-    getGrowth(this.state, this.updateThisState);
+    // TODO: A reorganisation of only the data we need to send is good idea instead of the growing list data.
+    this.props.dispatch(getGrowthProjection(localAddress, this.props));
   }
   saveThisBackup() {
     const backup = Object.assign([], this.state.resultOfgrowth);

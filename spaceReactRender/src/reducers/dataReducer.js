@@ -4,8 +4,8 @@ const calculatedData = (state={
 }, action) => {
   // switch statement here
     switch (action.type) {
-      case "SOMETHING" : {
-        return {...state, resultOfgrowth:[]};
+      case "FETCHED_SERVERGROWTH" : {
+        return {...state, resultOfgrowth: action.payload};
       }
       default : {
         return {... state};
