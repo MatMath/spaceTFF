@@ -3,17 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import tableStyle from './tableStyle.scss'
 
 export default class TableDisplay extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      resultOfgrowth: this.props.resultOfgrowth
-    }
-  }
   render () {
-    const { resultOfgrowth } = this.state;
+    const { resultOfgrowth } = this.props;
     return (
-      <div>
-
+        <div>
           <div className={tableStyle.table_header}>
               <div className='col-xs-1'> Trip</div>
               <div className='col-xs-2'> Mars Pop</div>
@@ -50,11 +43,7 @@ export default class TableDisplay extends React.Component {
               </div>)
             })}
           </div>
-
-
-      <h1>nbr of steps: {resultOfgrowth.length}</h1>
-
-
+          <h1>nbr of steps: {resultOfgrowth.length}</h1>
       </div>
     )
   };

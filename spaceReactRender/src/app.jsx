@@ -13,7 +13,7 @@ let localAddress = process.env.API_HTTP_SERVER;
 
 // Loading actions
 import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from "./actions/paramActions"
-import { getGrowthProjection } from './actions/fetchActions'
+import { getGrowthProjection, saveThisBackup } from './actions/fetchActions'
 
 @connect((store) => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
@@ -84,9 +84,8 @@ export default class App extends React.Component {
     this.props.dispatch(getGrowthProjection(localAddress, this.props));
   }
   saveThisBackup() {
-    const backup = Object.assign([], this.state.resultOfgrowth);
-    this.setState({ random: Math.random() });
-    this.setState({ savedBackup: backup });
+    const backup = Object.assign([], this.props.resultOfgrowth);
+    this.props.dispatch(saveThisBackup(backup));
   }
   render () {
     const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;

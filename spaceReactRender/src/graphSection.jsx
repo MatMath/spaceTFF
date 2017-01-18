@@ -23,8 +23,6 @@ export default class GraphSection extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      resultOfgrowth: this.props.resultOfgrowth,
-      savedBackup: this.props.savedBackup,
       deathRatio: this.deathRatio(this.props.resultOfgrowth),
       display: 'Yes',
       shipLossArray: [],
@@ -112,7 +110,8 @@ export default class GraphSection extends React.Component {
     return arrToreturn;
   }
   render() {
-    const {display, resultOfgrowth, displayGraph, savedBackup, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
+    const {display, displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
+    const {resultOfgrowth, savedBackup} = this.props;
     return (
       <div>
         Graph that could be fun:

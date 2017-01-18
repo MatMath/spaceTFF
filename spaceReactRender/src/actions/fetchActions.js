@@ -25,6 +25,9 @@ export function getGrowthProjection (HTTP_SERVER, param) {
   };
 }
 
-export function saveThisBackup() {
-
+export function saveThisBackup(resultOfgrowth) {
+  return {
+    type: "BACKUP_GROWTHRUN",
+    payload: resultOfgrowth
+  }
 }

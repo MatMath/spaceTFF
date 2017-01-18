@@ -76,7 +76,7 @@ const baseParam = (state={
         return { ...state, paramRun: {...state.paramRun, years: action.payload }}
       }
       default : {
-        return {... state};
+        return { ...state};
       }
     }
 

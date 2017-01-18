@@ -9,8 +9,6 @@ export default class BarGraph extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      resultOfgrowth: this.props.resultOfgrowth,
-      savedBackup: this.props.savedBackup,
       checked: {
         Population: true,
         SavedPopulation: true,
@@ -48,7 +46,8 @@ export default class BarGraph extends React.Component {
     if (graphSeparator > 1000) {
       graphSeparator = Math.round(maxPop/5/1000)*1000; //if large number round to the thousant.
     }
-    const {resultOfgrowth, checked, savedBackup} = this.state;
+    const {checked} = this.state;
+    const {resultOfgrowth, savedBackup } = this.props;
     const popColor = 'rgba(0, 196, 255, 0.55)';
     const deathColor = '#ec581f';
     const savedPopColor = 'rgba(0, 255, 78, 0.76)';
