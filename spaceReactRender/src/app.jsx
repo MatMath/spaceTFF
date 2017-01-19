@@ -15,28 +15,28 @@ let localAddress = process.env.API_HTTP_SERVER;
 import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from './actions/paramActions';
 import { getGrowthProjection, saveThisBackup } from './actions/fetchActions';
 
-@connect((store) => {
+const mapStateToProps = state => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
     return {
-      persPerShip: store.baseParam.paramServer.persPerShip,
-      engineMalfunction: store.baseParam.paramServer.engineMalfunction,
-      refuilingDefect: store.baseParam.paramServer.refuilingDefect,
-      landingFaillure: store.baseParam.paramServer.landingFaillure,
-      reusabilityOfShip: store.baseParam.paramServer.reusabilityOfShip,
-      improvement: store.baseParam.paramServer.improvement,
-      firstStageEngine: store.baseParam.paramServer.firstStageEngine,
-      itsEngine: store.baseParam.paramServer.itsEngine,
-      touristRatio: store.baseParam.paramServer.touristRatio,
-      orbitRefulling: store.baseParam.paramServer.orbitRefulling,
-      probIncreaseProdOfIts: store.baseParam.paramServer.probIncreaseProdOfIts,
-      itsIncreaseOf: store.baseParam.paramServer.itsIncreaseOf,
-      maxPop: store.baseParam.paramRun.maxPop,
-      years: store.baseParam.paramRun.years,
-      resultOfgrowth: store.calculatedData.resultOfgrowth,
-      savedBackup: store.calculatedData.savedBackup
+      persPerShip: state.baseParam.paramServer.persPerShip,
+      engineMalfunction: state.baseParam.paramServer.engineMalfunction,
+      refuilingDefect: state.baseParam.paramServer.refuilingDefect,
+      landingFaillure: state.baseParam.paramServer.landingFaillure,
+      reusabilityOfShip: state.baseParam.paramServer.reusabilityOfShip,
+      improvement: state.baseParam.paramServer.improvement,
+      firstStageEngine: state.baseParam.paramServer.firstStageEngine,
+      itsEngine: state.baseParam.paramServer.itsEngine,
+      touristRatio: state.baseParam.paramServer.touristRatio,
+      orbitRefulling: state.baseParam.paramServer.orbitRefulling,
+      probIncreaseProdOfIts: state.baseParam.paramServer.probIncreaseProdOfIts,
+      itsIncreaseOf: state.baseParam.paramServer.itsIncreaseOf,
+      maxPop: state.baseParam.paramRun.maxPop,
+      years: state.baseParam.paramRun.years,
+      resultOfgrowth: state.calculatedData.resultOfgrowth,
+      savedBackup: state.calculatedData.savedBackup
     };
-})
-export default class App extends React.Component {
+};
+class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -56,7 +56,7 @@ export default class App extends React.Component {
       'TakeOff/Journey (Each engine)',
       'Decelarating on arrival (Each engine)',
       'Landing on earth']
-    }
+    };
     this.saveThisBackup = this.saveThisBackup.bind(this);
     this.getGrowthProjection = this.getGrowthProjection.bind(this);
   }
@@ -306,13 +306,16 @@ export default class App extends React.Component {
         </div>
 
         <div className={`row ${styles.submit_btn}`}>
-          <button className={`btn btn-lg btn-success`} onClick={this.getGrowthProjection}>Get the Data!</button>
-          <button className={`btn btn-lg btn-warning`} onClick={this.saveThisBackup}>Save a backup</button>
+          <button className={'btn btn-lg btn-success'} onClick={this.getGrowthProjection}>Get the Data!</button>
+          <button className={'btn btn-lg btn-warning'} onClick={this.saveThisBackup}>Save a backup</button>
         </div>
 
         {resultOfgrowth.length > 0 && <TableDisplay resultOfgrowth={resultOfgrowth}></TableDisplay>}
         {resultOfgrowth.length > 0 && <GraphSection resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></GraphSection>}
       </div>
-    )
+    );
   }
 }
+
+// Exporting the Store + app "Connected"
+export default connect(mapStateToProps)(App);
