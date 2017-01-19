@@ -1,5 +1,5 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class HelpComponentList extends React.Component {
   constructor (props) {
@@ -7,16 +7,16 @@ export default class HelpComponentList extends React.Component {
     this.state = {
       msgArray: this.props.msgArray,
       display: true
-    }
+    };
     this.setToTrue = this.setToTrue.bind(this);
     this.setToFalse = this.setToFalse.bind(this);
   }
   setToTrue() {
     this.setState({display: true});
-    console.log("Set to true");
+    console.log('Set to true');
   }
   setToFalse() {
-    console.log("Set to False");
+    console.log('Set to False');
     this.setState({display: false});
   }
   render() {
@@ -28,11 +28,11 @@ export default class HelpComponentList extends React.Component {
         <span>{display}</span>
         {display ?
           <ul>
-          {msgArray.map((string, index) => {
-            return (<li key={index}>{string}</li>)
-          })}
+            {msgArray.map((string, index) => {
+              return (<li key={index}>{string}</li>);
+            })}
           </ul> : null }
       </div>
-    )
+    );
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 class Errorpage extends React.Component {
 	constructor (props) {
-    super(props)
+    super(props);
   }
 	render() {
 		return (

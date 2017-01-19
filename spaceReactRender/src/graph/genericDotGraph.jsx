@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import GraphBar from './graphBar.jsx'
-import styles from './lineGraph.scss'
+// import GraphBar from './graphBar.jsx'
+import styles from './lineGraph.scss';
 
 // EXEMPLE of input:
 // var imputArray = [
@@ -34,7 +34,7 @@ export default class GenericBarGraph extends React.Component {
         y: this.props.yaxis
       },
       title: this.props.title
-    }
+    };
   }
   getCoordonateOfData(imputArray) {
     console.log('getCoordonateOfData:', imputArray);
@@ -47,9 +47,9 @@ export default class GenericBarGraph extends React.Component {
           cx: xPadding + index * (graphWidth - xPadding)/maximumIteration,
           cy: yZero - point/MaxValue*(yZero - yToppadding),
           value:point
-        }
-      })
-    })
+        };
+      });
+    });
   }
   getInputmax(imputArray) {
     console.log('GetInputMax:', imputArray);
@@ -72,7 +72,7 @@ export default class GenericBarGraph extends React.Component {
       XAxisValue.push({
         x: xPadding + (graphWidth - xPadding)/5*i,
         label: parseInt(maximum / 5 * i * 10)/10
-      })
+      });
     }
     return XAxisValue;
   }
@@ -102,33 +102,33 @@ export default class GenericBarGraph extends React.Component {
         <g className={`${styles.grid} ${styles.y_grid}`} id="yGrid">
           <line x1="90" x2={graphWidth} y1={yZero} y2={yZero}></line>
         </g>
-          <g className={`${styles.labels} ${styles.x_labels}`}>
-          {xAxisGrid.map((item) => { return (<text key={item.label} x={item.x} y={graphHeight}>{item.label}</text>) })}
+        <g className={`${styles.labels} ${styles.x_labels}`}>
+          {xAxisGrid.map((item) => { return (<text key={item.label} x={item.x} y={graphHeight}>{item.label}</text>); })}
           <text x={(graphWidth+ xPadding) / 2} y={graphHeight + 40} className={`${styles.label_title}`}>{axis.x}</text>
         </g>
         <g className={`${styles.labels} ${styles.y_labels}`}>
           {yAxisGrid.map((item) => { return (<g key={item.label}>
             <text x="80" y={item.y}>{item.label}</text>
             <line className={`${styles.grid} ${styles.x_grid}`} x1="90" x2={graphWidth} y1={item.y} y2={item.y}></line>
-            </g>
-          ) })}
+          </g>
+          ); })}
           <svg x="30" y={graphHeight / 2} width="100" height="100">
             <text dominantBaseline="text-before-edge" transform="rotate(-90)" className={`${styles.label_title}`}>{axis.y}</text>
           </svg>
         </g>
         {arrayOfArray.map((dataSet, i) => {
           return(<g key={i} style={{fill: labelArray[i].color, strokeWidth: 1}} data-setname={labelArray[i].label}>
-              {dataSet.map((item, index) =>{
-                return (<circle key={item.cx + item.cy} cx={item.cx} cy={item.cy} data-value={item.value} r="4"></circle>)
-              })}
-            </g>
-          )
+            {dataSet.map((item, index) =>{
+              return (<circle key={item.cx + item.cy} cx={item.cx} cy={item.cy} data-value={item.value} r="4"></circle>);
+            })}
+          </g>
+          );
         })}
         {labelArray.map((item, index) => {
           return(<text key={index} x={graphWidth + 10} y={svgHeight / 3 + 20*index} style={{fill: item.color}} className={`${styles.label_title}`}>{item.label}</text>);
         })}
 
       </svg>
-    </div>)
+    </div>);
   }
 }

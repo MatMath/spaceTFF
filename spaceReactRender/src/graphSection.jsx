@@ -1,10 +1,10 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import styles from './index.scss'
-import BarGraph from './graph/barGraph.jsx'
-import PieChart from './graph/pieChart.jsx'
-import GenericDotGraph from './graph/genericDotGraph.jsx'
+// import styles from './index.scss';
+import BarGraph from './graph/barGraph.jsx';
+import PieChart from './graph/pieChart.jsx';
+import GenericDotGraph from './graph/genericDotGraph.jsx';
 
 let add2Objects = (previousObj, currentObj) => {
   for (var key in currentObj) {
@@ -29,7 +29,7 @@ export default class GraphSection extends React.Component {
       shipProduction: [],
       fleetSize: [],
       displayGraph: ''
-    }
+    };
     this.growthVsDeath = this.growthVsDeath.bind(this);
     this.pieChart = this.pieChart.bind(this);
     this.shipLoss = this.shipLoss.bind(this);
@@ -40,10 +40,10 @@ export default class GraphSection extends React.Component {
   shipLoss() {
     let shipLossArray = this.props.resultOfgrowth.map((item)=>{
       return item.shipLoss;
-    })
+    });
     let fleetSize = this.props.resultOfgrowth.map((item)=>{
       return item.earthFleet.length + item.marsFleet.length;
-    })
+    });
     this.setState({displayGraph:'shipLoss'});
     this.setState({
       shipLossArray: shipLossArray,
@@ -54,7 +54,7 @@ export default class GraphSection extends React.Component {
     console.log('Results: ',this.props.resultOfgrowth);
     let shipProduction = this.props.resultOfgrowth.map((item)=>{
       return item.currentYearItsProd;
-    })
+    });
     console.log('shipProduction', shipProduction);
     this.setState({displayGraph: 'prodIncrease'});
     this.setState({shipProduction: shipProduction});
@@ -71,7 +71,7 @@ export default class GraphSection extends React.Component {
     }).reduce((previousObj, currentObj) =>{
       // We combine and sum all data to have 1 object with the sum of each defect
       return add2Objects(previousObj, currentObj);
-    })
+    });
 
     // console.log('Total Killed in', totKilledIn);
     // Going trough all key of the Object and pushing them into a Array to feed to the BarGraph with percentage.
@@ -93,7 +93,7 @@ export default class GraphSection extends React.Component {
             percentage: totKilledIn[key] / total * 100,
             label: key,
             value: totKilledIn[key]
-          })
+          });
         }
       }
     }
@@ -103,14 +103,14 @@ export default class GraphSection extends React.Component {
         percentage: otherTotal / total * 100,
         label: 'Other',
         value: otherTotal
-      })
+      });
     }
     // console.log('arrToreturn: ', arrToreturn);
     // calculating the Percentage of each Pieces
     return arrToreturn;
   }
   render() {
-    const {display, displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
+    const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
     const {resultOfgrowth, savedBackup} = this.props;
     return (
       <div>
@@ -137,6 +137,6 @@ export default class GraphSection extends React.Component {
           yaxis='Production'
           title='Ship Production over time'></GenericDotGraph>}
       </div>
-    )
+    );
   }
 }

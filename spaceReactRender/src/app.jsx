@@ -1,19 +1,19 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import styles from './index.scss'
-import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './index.scss';
+import React from 'react';
 
-import { connect } from "react-redux"
+import { connect } from 'react-redux';
 
 // modules
-import TableDisplay from './tableDisplay.jsx'
-import HelpComponentList from './helpComponent.jsx'
-import GraphSection from './graphSection.jsx'
+import TableDisplay from './tableDisplay.jsx';
+import HelpComponentList from './helpComponent.jsx';
+import GraphSection from './graphSection.jsx';
 let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 // Loading actions
-import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from "./actions/paramActions"
-import { getGrowthProjection, saveThisBackup } from './actions/fetchActions'
+import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from './actions/paramActions';
+import { getGrowthProjection, saveThisBackup } from './actions/fetchActions';
 
 @connect((store) => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
@@ -62,19 +62,19 @@ export default class App extends React.Component {
   }
 
   changeYears (event) {
-      let value = (isNaN(parseInt(event.target.value)) === true) ? "" : parseInt(event.target.value);
-      this.props.dispatch(changeYears(value))
+      let value = (isNaN(parseInt(event.target.value)) === true) ? '' : parseInt(event.target.value);
+      this.props.dispatch(changeYears(value));
   }
   changeMaxPopulation (event) {
-    let value = (isNaN(parseInt(event.target.value)) === true) ? "" : parseInt(event.target.value);
-    this.props.dispatch(changeMaxPopulation(value))
+    let value = (isNaN(parseInt(event.target.value)) === true) ? '' : parseInt(event.target.value);
+    this.props.dispatch(changeMaxPopulation(value));
   }
   changeNumberValue (key, event) {
     if (key && event.target.value !== undefined) {
       let value = parseFloat(event.target.value);
       if(isNaN(value) === true) {
         // if someone remove the # to input another we endup in NAN so we need to replace to empty value.
-        value = "";
+        value = '';
       }
       this.props.dispatch(change_baseParam_paramServer(key, value));
     }
@@ -90,7 +90,7 @@ export default class App extends React.Component {
   render () {
     const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;
     const {shipConfigurationHelp, riskListHelp} = this.state;  //Help files
-    console.log("Props:",this.props);
+    console.log('Props:',this.props);
     return (
       <div className='container'>
 
@@ -98,49 +98,49 @@ export default class App extends React.Component {
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group' data-toggle="tooltip" data-placement="bottom" title="Chance that 1 engine have a critical defect.">
-                <label className='col-sm-6 control-label'>Engine Malfunction</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
+              <label className='col-sm-6 control-label'>Engine Malfunction</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
                   step='0.001'
                   min='0'
                   value={engineMalfunction}
                   onChange={this.changeNumberValue.bind(this, 'engineMalfunction')} />
-                </div>
+              </div>
             </div>
             <div className='form-group' data-toggle="tooltip" data-placement="bottom" title="Chance of refueling critical event.">
-                <label className='col-sm-6 control-label'>Refuiling Defect</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='0.01'
-                    min='0'
-                    value={refuilingDefect}
-                    onChange={this.changeNumberValue.bind(this, 'refuilingDefect')} />
-                </div>
+              <label className='col-sm-6 control-label'>Refuiling Defect</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='0.01'
+                  min='0'
+                  value={refuilingDefect}
+                  onChange={this.changeNumberValue.bind(this, 'refuilingDefect')} />
+              </div>
             </div>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Landing Faillure</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='0.01'
-                    min='0'
-                    value={landingFaillure}
-                    onChange={this.changeNumberValue.bind(this, 'landingFaillure')} />
-                </div>
+              <label className='col-sm-6 control-label'>Landing Faillure</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='0.01'
+                  min='0'
+                  value={landingFaillure}
+                  onChange={this.changeNumberValue.bind(this, 'landingFaillure')} />
+              </div>
             </div>
           </div>
 
           <div className='col-md-6'>
             <div className='form-group' data-toggle="tooltip" data-placement="bottom" title="Improvement on the defect.">
-                <label className='col-sm-6 control-label'>Improvement</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='0.01'
-                    min='0'
-                    max='1'
-                    value={improvement}
-                    onChange={this.changeNumberValue.bind(this, 'improvement')} />
-                </div>
+              <label className='col-sm-6 control-label'>Improvement</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='0.01'
+                  min='0'
+                  max='1'
+                  value={improvement}
+                  onChange={this.changeNumberValue.bind(this, 'improvement')} />
               </div>
+            </div>
           </div>
         </div>
         <div>
@@ -155,83 +155,83 @@ export default class App extends React.Component {
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Person per ship</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    min='0'
-                    value={persPerShip}
-                    onChange={this.changeNumberValue.bind(this, 'persPerShip')} />
-                </div>
+              <label className='col-sm-6 control-label'>Person per ship</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  value={persPerShip}
+                  onChange={this.changeNumberValue.bind(this, 'persPerShip')} />
               </div>
+            </div>
           </div>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Reusability of ship</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='1'
-                    min='0'
-                    max='50'
-                    value={reusabilityOfShip}
-                    onChange={this.changeNumberValue.bind(this, 'reusabilityOfShip')} />
-                  </div>
+              <label className='col-sm-6 control-label'>Reusability of ship</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='1'
+                  min='0'
+                  max='50'
+                  value={reusabilityOfShip}
+                  onChange={this.changeNumberValue.bind(this, 'reusabilityOfShip')} />
               </div>
             </div>
+          </div>
         </div>
 
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>First Stage Engine</label>
-                <div className='col-sm-6'>
+              <label className='col-sm-6 control-label'>First Stage Engine</label>
+              <div className='col-sm-6'>
                 <input type='number' className='form-control'
                   min='0'
                   step='1'
                   value={firstStageEngine}
                   onChange={this.changeNumberValue.bind(this, 'firstStageEngine')} />
-                  </div>
               </div>
+            </div>
           </div>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>ITS Engine</label>
-                <div className='col-sm-6'>
+              <label className='col-sm-6 control-label'>ITS Engine</label>
+              <div className='col-sm-6'>
                 <input type='number' className='form-control'
                   min='0'
                   step='1'
                   value={itsEngine}
                   onChange={this.changeNumberValue.bind(this, 'itsEngine')} />
-                  </div>
               </div>
             </div>
+          </div>
         </div>
 
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Tourist Ratio</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    min='0'
-                    step='0.01'
-                    max='1'
-                    value={touristRatio}
-                    onChange={this.changeNumberValue.bind(this, 'touristRatio')} />
-                  </div>
+              <label className='col-sm-6 control-label'>Tourist Ratio</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  step='0.01'
+                  max='1'
+                  value={touristRatio}
+                  onChange={this.changeNumberValue.bind(this, 'touristRatio')} />
               </div>
+            </div>
           </div>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Orbit Refulling</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='1'
-                    min='0'
-                    max='50'
-                    value={orbitRefulling}
-                    onChange={this.changeNumberValue.bind(this, 'orbitRefulling')} />
-                  </div>
+              <label className='col-sm-6 control-label'>Orbit Refulling</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='1'
+                  min='0'
+                  max='50'
+                  value={orbitRefulling}
+                  onChange={this.changeNumberValue.bind(this, 'orbitRefulling')} />
               </div>
+            </div>
           </div>
         </div>
         <div className='row col-xs-12'>
@@ -242,30 +242,30 @@ export default class App extends React.Component {
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Chance of increase</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    min='0'
-                    step='0.01'
-                    max='1'
-                    value={probIncreaseProdOfIts}
-                    onChange={this.changeNumberValue.bind(this, 'probIncreaseProdOfIts')} />
-                  </div>
+              <label className='col-sm-6 control-label'>Chance of increase</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  step='0.01'
+                  max='1'
+                  value={probIncreaseProdOfIts}
+                  onChange={this.changeNumberValue.bind(this, 'probIncreaseProdOfIts')} />
               </div>
+            </div>
           </div>
           <div className='col-md-6'>
             <div className='form-group' data-toggle="tooltip" data-placement="bottom" title="# of Internation Transport Vehicule.">
-                <label className='col-sm-6 control-label'>ITS Increase</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='1'
-                    min='0'
-                    max='50'
-                    value={itsIncreaseOf}
-                    onChange={this.changeNumberValue.bind(this, 'itsIncreaseOf')} />
-                  </div>
+              <label className='col-sm-6 control-label'>ITS Increase</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='1'
+                  min='0'
+                  max='50'
+                  value={itsIncreaseOf}
+                  onChange={this.changeNumberValue.bind(this, 'itsIncreaseOf')} />
               </div>
             </div>
+          </div>
         </div>
         <div className='row col-xs-12'>
           <p>Chance of increase: Chance that this round we increase the ship production by a total of "ITS Increase"</p>
@@ -275,30 +275,30 @@ export default class App extends React.Component {
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Population to reach</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    min='100'
-                    step='100'
-                    max='5000000'
-                    value={maxPop}
-                    onChange={this.changeMaxPopulation.bind(this)} />
-                  </div>
+              <label className='col-sm-6 control-label'>Population to reach</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='100'
+                  step='100'
+                  max='5000000'
+                  value={maxPop}
+                  onChange={this.changeMaxPopulation.bind(this)} />
               </div>
+            </div>
           </div>
           <div className='col-md-6'>
             <div className='form-group'>
-                <label className='col-sm-6 control-label'>Max number of run</label>
-                <div className='col-sm-6'>
-                  <input type='number' className='form-control'
-                    step='1'
-                    min='1'
-                    max='1000'
-                    value={years}
-                    onChange={this.changeYears.bind(this)} />
-                  </div>
+              <label className='col-sm-6 control-label'>Max number of run</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='1'
+                  min='1'
+                  max='1000'
+                  value={years}
+                  onChange={this.changeYears.bind(this)} />
               </div>
             </div>
+          </div>
         </div>
         <div className='row col-xs-12'>
           <h4>Risk list:</h4>

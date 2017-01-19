@@ -17,7 +17,7 @@ import GraphBar from './graphBar.jsx'
   }
   calculateSectors( data, size ) {
     var sectors = [];
-    var colors = ["#61C0BF", "#DA507A", "#BB3D49", "#DB4547", "#178ad6", "#17d6c7", "#17d66f"]
+    var colors = ['#61C0BF', '#DA507A', '#BB3D49', '#DB4547', '#178ad6', '#17d6c7', '#17d66f']
     var l = size / 2;
     var a = 0; // Angle
     var aRad = 0; // Angle in Rad
@@ -65,7 +65,7 @@ import GraphBar from './graphBar.jsx'
         });
 
         R = R + a;
-    })
+    });
 
     // console.log("Drawing " + sectors.length + " pieces");
     // console.table(sectors);
@@ -74,7 +74,7 @@ import GraphBar from './graphBar.jsx'
   arrayMaxValue(arrayOfValue) {
     // console.log('Evaluating the Max of: ',arrayOfValue);
     var maximum = arrayOfValue.reduce((previous, current) => {
-      if(previous === undefined) {previous = {}; previous.value = 0}
+      if(previous === undefined) {previous = {}; previous.value = 0;}
       // console.log('comparaison:', previous.value, current.value);
       if (previous.value < current.value) {
         // console.log('returning Current value', current.value);
@@ -90,24 +90,24 @@ import GraphBar from './graphBar.jsx'
     const {size, sectors, radius} = this.state;
     const maximum = 500 / this.arrayMaxValue(sectors);
     return (<div className='row'>
-        <div id='PieChart' className="col-sm-6">
-          <svg className={styles.svg_round} style={{width: 230+'px', 'height': 230+'px'}}>
-            {sectors.map((item, index) => {
-              return (<path key={index} fill={item.color} d={`M${radius},${radius} L${radius},0 A${radius},${radius} 0 ${item.arcSweep},1 ${item.X}, ${item.Y} z`} transform={`rotate(${item.R}, ${radius}, ${radius})`}></path>)
-            })}
-            <circle cx={radius} cy={radius} r={radius*0.6} fill="#42495B"></circle>
-          </svg>
-        </div>
-        <div className='col-sm-6'>
+      <div id='PieChart' className="col-sm-6">
+        <svg className={styles.svg_round} style={{width: 230+'px', 'height': 230+'px'}}>
           {sectors.map((item, index) => {
-            return(<div key={index} className='row'>
-                <div className='col-xs-4'>{item.label}</div>
-                <div className='col-xs-8'>
-                  <GraphBar nbr={item.value} max={maximum} color={item.color} textColor='black'></GraphBar>
-                </div>
-              </div>)
+            return (<path key={index} fill={item.color} d={`M${radius},${radius} L${radius},0 A${radius},${radius} 0 ${item.arcSweep},1 ${item.X}, ${item.Y} z`} transform={`rotate(${item.R}, ${radius}, ${radius})`}></path>);
           })}
-        </div>
-      </div>)
+          <circle cx={radius} cy={radius} r={radius*0.6} fill="#42495B"></circle>
+        </svg>
+      </div>
+      <div className='col-sm-6'>
+        {sectors.map((item, index) => {
+          return(<div key={index} className='row'>
+            <div className='col-xs-4'>{item.label}</div>
+            <div className='col-xs-8'>
+              <GraphBar nbr={item.value} max={maximum} color={item.color} textColor='black'></GraphBar>
+            </div>
+          </div>);
+        })}
+      </div>
+    </div>);
   }
 }

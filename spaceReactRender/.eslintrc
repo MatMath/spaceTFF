@@ -1,4 +1,5 @@
 {
+  "extends": "eslint:recommended",
   "parser": "babel-eslint",
   "plugins": [
     "react"
@@ -7,6 +8,7 @@
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
       "jsx": true
     }
   },
@@ -22,7 +24,7 @@
     "quotes": [ 1, "single" ],
     "no-undef": 1,
     "global-strict": 0,
-    "no-extra-semi": 1,
+    "semi": 1,
     "no-underscore-dangle": 0,
     "no-console": 1,
     "no-unused-vars": 1,
