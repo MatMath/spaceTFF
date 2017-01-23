@@ -33,14 +33,7 @@ const mapStateToProps = state => {
       maxPop: state.baseParam.paramRun.maxPop,
       years: state.baseParam.paramRun.years,
       resultOfgrowth: state.calculatedData.resultOfgrowth,
-      savedBackup: state.calculatedData.savedBackup
-    };
-};
-class App extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      random: 0.1,
+      savedBackup: state.calculatedData.savedBackup,
       shipConfigurationHelp: ['Person per ship: Number of person that fit in each ship.',
       'Reusability of ship: Number of trip a ship can do before being recycled',
       'First Stage Engine: Number of Engine that lift the first stage',
@@ -57,6 +50,12 @@ class App extends React.Component {
       'Decelarating on arrival (Each engine)',
       'Landing on earth']
     };
+};
+
+
+class App extends React.Component {
+  constructor (props) {
+    super(props);
     this.saveThisBackup = this.saveThisBackup.bind(this);
     this.getGrowthProjection = this.getGrowthProjection.bind(this);
   }
@@ -88,8 +87,7 @@ class App extends React.Component {
     this.props.dispatch(saveThisBackup(backup));
   }
   render () {
-    const {persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;
-    const {shipConfigurationHelp, riskListHelp} = this.state;  //Help files
+    const {shipConfigurationHelp, riskListHelp, persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years, savedBackup} = this.props;
     console.log('Props:',this.props);
     return (
       <div className='container'>

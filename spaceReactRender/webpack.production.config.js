@@ -64,7 +64,7 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/template.html',
-			title: 'Webpack App'
+			title: 'Space TFF'
 		}),
 		new webpack.optimize.DedupePlugin()
 	]
