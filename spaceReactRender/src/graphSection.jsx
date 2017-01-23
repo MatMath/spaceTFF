@@ -1,117 +1,63 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { connect } from 'react-redux';
 
 // import styles from './index.scss';
 import BarGraph from './graph/barGraph.jsx';
 import PieChart from './graph/pieChart.jsx';
 import GenericDotGraph from './graph/genericDotGraph.jsx';
 
-let add2Objects = (previousObj, currentObj) => {
-  for (var key in currentObj) {
-    if (currentObj.hasOwnProperty(key)) {
-      if (previousObj === undefined) {previousObj = {};}
-      if (!previousObj.hasOwnProperty(key) || previousObj[key] === undefined) {
-        previousObj[key] = 0;
-      }
-      previousObj[key] += currentObj[key];
-    }
-  }
-  return previousObj;
+// importing actions needed:
+import {calculateDeathRatio, displayGrowthVsDeath, changeDisplayGraph, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from './actions/calculationActions';
+
+//Building the mapping of States and actions:
+const mapGraphStateToProps = (state) => {
+  return {
+    resultOfgrowth: state.calculatedData.resultOfgrowth,
+    savedBackup: state.calculatedData.savedBackup,
+    deathRatio: state.calculatedData.deathRatio,
+    shipLossArray: state.calculatedData.shipLossArray,
+    shipProduction: state.calculatedData.shipProduction,
+    fleetSize: state.calculatedData.fleetSize,
+    displayGraph: state.calculatedData.displayGraph
+  };
 };
 
-export default class GraphSection extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      deathRatio: this.deathRatio(this.props.resultOfgrowth),
-      display: 'Yes',
-      shipLossArray: [],
-      shipProduction: [],
-      fleetSize: [],
-      displayGraph: ''
-    };
-    this.growthVsDeath = this.growthVsDeath.bind(this);
-    this.pieChart = this.pieChart.bind(this);
-    this.shipLoss = this.shipLoss.bind(this);
-    this.prodIncrease = this.prodIncrease.bind(this);
-  }
-  growthVsDeath() { this.setState({displayGraph:'growthVsDeath'}); }
-  pieChart() { this.setState({displayGraph:'pieChart'}); }
-  shipLoss() {
-    let shipLossArray = this.props.resultOfgrowth.map((item)=>{
-      return item.shipLoss;
-    });
-    let fleetSize = this.props.resultOfgrowth.map((item)=>{
-      return item.earthFleet.length + item.marsFleet.length;
-    });
-    this.setState({displayGraph:'shipLoss'});
-    this.setState({
-      shipLossArray: shipLossArray,
-      fleetSize: fleetSize
-    });
-  }
-  prodIncrease() {
-    console.log('Results: ',this.props.resultOfgrowth);
-    let shipProduction = this.props.resultOfgrowth.map((item)=>{
-      return item.currentYearItsProd;
-    });
-    console.log('shipProduction', shipProduction);
-    this.setState({displayGraph: 'prodIncrease'});
-    this.setState({shipProduction: shipProduction});
-  }
-  deathRatio(data) {
-    let arrToreturn = [];
-    let total = 0;
-
-    let totKilledIn = data.map((item) => {
-      // We check each section to see if there is any death at that time if so we make a aray of them
-      if (item.totKilledIn && Object.keys(item.totKilledIn).length > 0) {
-        return item.totKilledIn;
-      }
-    }).reduce((previousObj, currentObj) =>{
-      // We combine and sum all data to have 1 object with the sum of each defect
-      return add2Objects(previousObj, currentObj);
-    });
-
-    // console.log('Total Killed in', totKilledIn);
-    // Going trough all key of the Object and pushing them into a Array to feed to the BarGraph with percentage.
-    for (let key in totKilledIn) {
-      if (totKilledIn.hasOwnProperty(key)) {
-        // Summing everything so we can add up to 100% after.
-        total += totKilledIn[key];
-      }
+const mapDispatchToProps = dispatch => {
+  console.log('Is this evaluate first???');
+  return {
+    buildGrowthBarChart: (resultOfgrowth) => {
+      dispatch(calculateDeathRatio(resultOfgrowth));
+      dispatch(changeDisplayGraph('growthVsDeath'));
+    },
+    builPieChart: () => {
+      dispatch(changeDisplayGraph('pieChart'));
+    },
+    buildShipLossData: (resultOfgrowth) => {
+      dispatch(calculateShipLoss(resultOfgrowth));
+      dispatch(calculateFleetSize(resultOfgrowth));
+      dispatch(changeDisplayGraph('shipLoss'));
+    },
+    buildProdIncreaseChart: (resultOfgrowth) => {
+      dispatch(calculateProdIncrease(resultOfgrowth));
+      dispatch(changeDisplayGraph('prodIncrease'));
     }
+  };
+};
 
-    var otherTotal = 0;
-    for (let key in totKilledIn) {
-      if (totKilledIn.hasOwnProperty(key)) {
-        // If something is lower than 1% Group them after.
-        if (totKilledIn[key] / total < 0.05) {
-          otherTotal += totKilledIn[key];
-        } else {
-          arrToreturn.push({
-            percentage: totKilledIn[key] / total * 100,
-            label: key,
-            value: totKilledIn[key]
-          });
-        }
-      }
-    }
-    // Adding the missing value in Other
-    if (otherTotal) {
-      arrToreturn.push({
-        percentage: otherTotal / total * 100,
-        label: 'Other',
-        value: otherTotal
-      });
-    }
-    // console.log('arrToreturn: ', arrToreturn);
-    // calculating the Percentage of each Pieces
-    return arrToreturn;
-  }
+// Render of the HTML with arguments passed:
+
+const GraphSection = React.createClass({
+  growthVsDeath() {
+    console.log('calling growthVsDeath');
+    this.props.buildGrowthBarChart(this.props.resultOfgrowth); },
+  pieChart() { this.props.builPieChart(this.props.resultOfgrowth);},
+  shipLoss() { this.props.buildShipLossData(this.props.resultOfgrowth); },
+  prodIncrease() { this.props.buildProdIncreaseChart(this.props.resultOfgrowth); },
+
   render() {
-    const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize} = this.state;
-    const {resultOfgrowth, savedBackup} = this.props;
+    console.log('Do you even try to render????');
+    const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize, resultOfgrowth, savedBackup} = this.props;
     return (
       <div>
         Graph that could be fun:
@@ -128,7 +74,7 @@ export default class GraphSection extends React.Component {
           imputArray={[shipLossArray, fleetSize]}
           labelArray={[{label:'Ship Loss', color:'red'}, {label:'Fleet Size', color:'blue'}]}
           xaxis='Period'
-          yaxis='# Loss'
+          yaxis='# Ship'
           title='Ship Loss over time'></GenericDotGraph>}
         {displayGraph == 'prodIncrease' && <GenericDotGraph
           imputArray={[shipProduction]}
@@ -139,4 +85,7 @@ export default class GraphSection extends React.Component {
       </div>
     );
   }
-}
+});
+
+// connection the 2 section:
+export default connect(mapGraphStateToProps, mapDispatchToProps)(GraphSection);

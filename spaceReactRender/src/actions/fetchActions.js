@@ -15,19 +15,19 @@ export function getGrowthProjection (HTTP_SERVER, param) {
     .then(function(data){
       if (data[0]) {
         // TODO: Could Add the logic here to make sure I have the proper info inside.
-        dispatch({ type: "FETCHED_SERVERGROWTH", payload: data})
+        dispatch({ type: 'FETCHED_SERVERGROWTH', payload: data});
       }
     })
     .catch(function(err) {
         console.log('Fetching growth Failed:', err);
-        dispatch({ type: "FETCHED_SERVERPARAM_FAILED", payload: err})
-      })
+        dispatch({ type: 'FETCHED_SERVERPARAM_FAILED', payload: err});
+      });
   };
 }
 
 export function saveThisBackup(resultOfgrowth) {
   return {
-    type: "BACKUP_GROWTHRUN",
+    type: 'BACKUP_GROWTHRUN',
     payload: resultOfgrowth
-  }
+  };
 }

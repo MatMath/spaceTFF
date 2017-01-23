@@ -1,6 +1,11 @@
 const calculatedData = (state={
   resultOfgrowth: [],
-  savedBackup: []
+  savedBackup: [],
+  deathRatio: [],
+  shipLossArray: [],
+  shipProduction: [],
+  fleetSize: [],
+  displayGraph: ''
 }, action) => {
   // switch statement here
     switch (action.type) {
@@ -9,6 +14,21 @@ const calculatedData = (state={
       }
       case 'BACKUP_GROWTHRUN' : {
         return {resultOfgrowth: [], savedBackup: [...action.payload]};
+      }
+      case 'BUILD_deathRatio' : {
+        return {...state, deathRatio: [...action.payload]};
+      }
+      case 'BUILD_shipLossArray' : {
+        return {...state, shipLossArray: [...action.payload]};
+      }
+      case 'BUILD_shipProduction' : {
+        return {...state, shipProduction: [...action.payload]};
+      }
+      case 'BUILD_fleetSize' : {
+        return {...state, fleetSize: [...action.payload]};
+      }
+      case 'CHANGE_displayGraph' : {
+        return {...state, displayGraph: action.payload};
       }
       default : {
         return {...state};
