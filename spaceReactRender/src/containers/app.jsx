@@ -1,19 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './index.scss';
+import styles from '../styles/index.scss';
 import React from 'react';
 
 import { connect } from 'react-redux';
 
 // modules
-import TableDisplay from './tableDisplay.jsx';
-import HelpComponentList from './helpComponent.jsx';
+import TableDisplay from '../components/tableDisplay.jsx';
+import HelpComponentList from '../components/helpComponent.jsx';
 import GraphSection from './graphSection.jsx';
 let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 // Loading actions
-import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from './actions/paramActions';
-import { getGrowthProjection, saveThisBackup } from './actions/fetchActions';
+import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from '../actions/paramActions';
+import { getGrowthProjection, saveThisBackup } from '../actions/fetchActions';
 
 const mapStateToProps = state => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.

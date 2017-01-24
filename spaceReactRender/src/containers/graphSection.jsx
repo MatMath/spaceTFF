@@ -3,12 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 
 // import styles from './index.scss';
-import BarGraph from './graph/barGraph.jsx';
-import PieChart from './graph/pieChart.jsx';
-import GenericDotGraph from './graph/genericDotGraph.jsx';
+import BarGraph from '../graph/barGraph.jsx';
+import PieChart from '../graph/pieChart.jsx';
+import GenericDotGraph from '../graph/genericDotGraph.jsx';
 
 // importing actions needed:
-import {calculateDeathRatio, displayGrowthVsDeath, changeDisplayGraph, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from './actions/calculationActions';
+import {calculateDeathRatio, displayGrowthVsDeath, changeDisplayGraph, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from '../actions/calculationActions';
 
 //Building the mapping of States and actions:
 const mapGraphStateToProps = (state) => {

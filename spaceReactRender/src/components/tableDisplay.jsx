@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import tableStyle from './tableStyle.scss';
+import tableStyle from '../styles/tableStyle.scss';
 
 export default class TableDisplay extends React.Component {
   render () {

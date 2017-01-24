@@ -4,8 +4,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';  //We render the provider that provide the store to React.
 
 // Code
-import App from './app.jsx';
-import Errorpage from './errorpage';
+import App from './containers/app.jsx';
+import Errorpage from './containers/errorpage';
 
 // Redux Store
 import store from './store';
