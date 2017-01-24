@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 // modules
 import TableDisplay from '../components/tableDisplay.jsx';
 import HelpComponentList from '../components/helpComponent.jsx';
-import GraphSection from './graphSection.jsx';
 let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
@@ -308,8 +307,8 @@ class App extends React.Component {
           <button className={'btn btn-lg btn-warning'} onClick={this.saveThisBackup}>Save a backup</button>
         </div>
 
+        {/* Table display can be here since it is a Dumb component */}
         {resultOfgrowth.length > 0 && <TableDisplay resultOfgrowth={resultOfgrowth}></TableDisplay>}
-        {resultOfgrowth.length > 0 && <GraphSection resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></GraphSection>}
       </div>
     );
   }

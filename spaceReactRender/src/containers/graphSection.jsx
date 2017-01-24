@@ -56,18 +56,18 @@ const GraphSection = React.createClass({
   prodIncrease() { this.props.buildProdIncreaseChart(this.props.resultOfgrowth); },
 
   render() {
-    console.log('Do you even try to render????');
+    console.log("Re-Rendering GRAPH");
     const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize, resultOfgrowth, savedBackup} = this.props;
+    if (resultOfgrowth.length ===0 ) { return (<div></div>); }
     return (
       <div>
-        Graph that could be fun:
+        Graph:
         <ul>
           <li onClick={this.growthVsDeath}>Population Growth vs Death occurence</li>
           <li onClick={this.pieChart}>Type of death with ratio</li>
           <li onClick={this.shipLoss}>Number of ship loss over time</li>
           <li onClick={this.prodIncrease}>Ship production increase over time</li>
         </ul>
-
         {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></BarGraph>}
         {displayGraph == 'pieChart' && <PieChart deathRatio={deathRatio}></PieChart>}
         {displayGraph == 'shipLoss' && <GenericDotGraph
