@@ -27,10 +27,10 @@ const mapDispatchToProps = dispatch => {
   console.log('Is this evaluate first???');
   return {
     buildGrowthBarChart: (resultOfgrowth) => {
-      dispatch(calculateDeathRatio(resultOfgrowth));
       dispatch(changeDisplayGraph('growthVsDeath'));
     },
-    builPieChart: () => {
+    builPieChart: (resultOfgrowth) => {
+      dispatch(calculateDeathRatio(resultOfgrowth));
       dispatch(changeDisplayGraph('pieChart'));
     },
     buildShipLossData: (resultOfgrowth) => {
@@ -49,14 +49,12 @@ const mapDispatchToProps = dispatch => {
 
 const GraphSection = React.createClass({
   growthVsDeath() {
-    console.log('calling growthVsDeath');
     this.props.buildGrowthBarChart(this.props.resultOfgrowth); },
   pieChart() { this.props.builPieChart(this.props.resultOfgrowth);},
   shipLoss() { this.props.buildShipLossData(this.props.resultOfgrowth); },
   prodIncrease() { this.props.buildProdIncreaseChart(this.props.resultOfgrowth); },
 
   render() {
-    console.log("Re-Rendering GRAPH");
     const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize, resultOfgrowth, savedBackup} = this.props;
     if (resultOfgrowth.length ===0 ) { return (<div></div>); }
     return (

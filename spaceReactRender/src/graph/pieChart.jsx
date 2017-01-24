@@ -1,23 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-import styles from './pieGraph.scss'
-import GraphBar from './graphBar.jsx'
+import styles from './pieGraph.scss';
+import GraphBar from './graphBar.jsx';
+
+//Mapping the State to the props
+
+// mapping Actions needed:
 
 // Started inpiration from: https://www.smashingmagazine.com/2015/07/designing-simple-pie-charts-with-css/
 // But Selected in SVG: https://danielpataki.com/svg-pie-chart-javascript/
   export default class PieChart extends React.Component {
-    constructor (props) {
-      super(props);
-      this.state = {
-        size: 230,
-        radius: 115,
-        sectors: this.calculateSectors(this.props.deathRatio, 230)
-    }
-    this.calculateSectors = this.calculateSectors.bind(this);
-  }
   calculateSectors( data, size ) {
     var sectors = [];
-    var colors = ['#61C0BF', '#DA507A', '#BB3D49', '#DB4547', '#178ad6', '#17d6c7', '#17d66f']
+    var colors = ['#61C0BF', '#DA507A', '#BB3D49', '#DB4547', '#178ad6', '#17d6c7', '#17d66f'];
     var l = size / 2;
     var a = 0; // Angle
     var aRad = 0; // Angle in Rad
@@ -87,7 +82,11 @@ import GraphBar from './graphBar.jsx'
     return maximum.value;
   }
   render() {
-    const {size, sectors, radius} = this.state;
+    console.log("PIE ME THIS:", this.props.deathRatio);
+    if (!this.props.deathRatio.length === 0) { return (<div></div>); }
+    const size = 230;
+    const radius = 115;
+    let sectors = this.calculateSectors(this.props.deathRatio, size);
     const maximum = 500 / this.arrayMaxValue(sectors);
     return (<div className='row'>
       <div id='PieChart' className="col-sm-6">
