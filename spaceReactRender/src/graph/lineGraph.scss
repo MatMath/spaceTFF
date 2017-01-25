@@ -24,3 +24,7 @@
   font-size: 12px;
   fill: black;
 }
+
+.graph_dot:hover .tooltip {
+  visibility: visible;
+}

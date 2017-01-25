@@ -123,8 +123,11 @@ export default class GenericBarGraph extends React.Component {
         </g>
         {arrayOfArray.map((dataSet, i) => {
           return(<g key={i} style={{fill: labelArray[i].color, strokeWidth: 1}} data-setname={labelArray[i].label}>
-            {dataSet.map((item) =>{
-              return (<circle key={item.cx + item.cy} cx={item.cx} cy={item.cy} data-value={item.value} r="4"></circle>);
+            {dataSet.map((item, index) =>{
+              return (<g key={item.cx + item.cy} className={`${styles.graph_dot}`}>
+                <circle cx={item.cx} cy={item.cy} data-value={item.value} r="4"></circle>
+                <text id="tooltip" x={item.cx} y={item.cy} visibility='hidden' className={`${styles.tooltip}`}>({index}, {item.value})</text>
+              </g>);
             })}
           </g>
           );
