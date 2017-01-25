@@ -23,6 +23,7 @@ export default class GenericBarGraph extends React.Component {
   // This is the Graph itself.
   getCoordonateOfData(imputArray) {
     let maximumIteration = imputArray[0].length; // SO we have the same Maximum as the xAxisGrid
+    maximumIteration = (maximumIteration % 2 !== 0) ? maximumIteration++ : maximumIteration; // Avoid odd and Prime numbers.
     let MaxValue = this.getInputmax(imputArray);
     return imputArray.map((subArrayOfData) =>{
       return subArrayOfData.map((point, index) => {
@@ -38,34 +39,46 @@ export default class GenericBarGraph extends React.Component {
   getInputmax(imputArray) {
       var max = 0;
       let arrOfMax = imputArray.map((arrX) => {
-        // console.log('max : ', arrX, arrX.max);
         let currentMax = Math.max(...arrX);
         if (currentMax > max) {max = currentMax;}
       });
+      // Avoid odd and Prime numbers.
+      if (max % 2 !== 0) {max++;}
       return max;
   }
   getXAxisGrid(maximum) {
+    maximum = (maximum % 2 !== 0) ? maximum++ : maximum; // Avoid odd and Prime numbers. (link with getCoordonateOfData)
+    let nbrLoop = this.findBiggestModal(maximum);
+    nbrLoop = (nbrLoop < 2) ? 2 : nbrLoop; // Grah with 1 Line is crude. :|
     let XAxisValue = [];
     // I want to have a X grid system not too big so if I have 40 point I want Max 5 Bar?
     // Axis min = 100, Axis Max = 400 --> Spacing = 300/5
     // let yearDifference = maximum / 5 * Spacing
-    for (var i = 0; i <= 5; i++) {
+    for (var i = 0; i <= nbrLoop; i++) {
       XAxisValue.push({
-        x: xPadding + (graphWidth - xPadding)/5*i,
-        label: parseInt(maximum / 5 * i * 10)/10
+        x: xPadding + (graphWidth - xPadding)/nbrLoop*i,
+        label: parseInt(maximum / nbrLoop * i)
       });
     }
     return XAxisValue;
   }
+  findBiggestModal (nbr) {
+    for (var i = nbr; i > 0; i--) {
+      if (nbr % (i - 1) === 0) {return (i-1);}
+    }
+    return 1; //To avoid receiving a 0 (and crashing?);
+  }
   getYAxisGrid(maximum) {
     let YAxisValue = [];
-    // I want to have a X grid system not too big so if I have 40 height I want Max 5 Bar?
+    let nbrLoop = this.findBiggestModal(maximum);
+    nbrLoop = (nbrLoop < 2) ? 2 : nbrLoop; // Grah with 1 Line is crude. :|
+    // I want to have a Y grid system not too big so if I have 40 height I want Max 5 Bar?
     // 0 being the bottom and Max being the top(so smallest number since we go down)
     // if graph height is 400 the 0 should be at the level of the X Axis so 370(graphHeight-yZero) but the graph will be from 0
-    for (var i = 0; i <= 5; i++) {
+    for (var i = 0; i <= nbrLoop; i++) {
       YAxisValue.push({
-        y: yToppadding + (yZero - yToppadding)/5*(5-i),
-        label: parseInt(maximum / 5 * i * 10)/10
+        y: yToppadding + (yZero - yToppadding)/nbrLoop*(nbrLoop-i),
+        label: parseInt(maximum / nbrLoop * i)
       });
     }
     // console.log('YAxisValue: ',YAxisValue, maximum);
