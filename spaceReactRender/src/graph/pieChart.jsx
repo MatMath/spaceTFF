@@ -78,11 +78,9 @@ import GraphBar from './graphBar.jsx';
         return {value:previous.value};
       }
     });
-    console.log('maximum: ',maximum);
     return maximum.value;
   }
   render() {
-    console.log("PIE ME THIS:", this.props.deathRatio);
     if (!this.props.deathRatio.length === 0) { return (<div></div>); }
     const size = 230;
     const radius = 115;

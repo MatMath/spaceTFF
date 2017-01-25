@@ -8,11 +8,11 @@ import PieChart from '../graph/pieChart.jsx';
 import GenericDotGraph from '../graph/genericDotGraph.jsx';
 
 // importing actions needed:
-import {calculateDeathRatio, displayGrowthVsDeath, changeDisplayGraph, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from '../actions/calculationActions';
+import {calculateDeathRatio, changeDisplayGraph, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from '../actions/calculationActions';
 
 //Building the mapping of States and actions:
 const mapGraphStateToProps = (state) => {
-  return {
+  let objToKeep = {
     resultOfgrowth: state.calculatedData.resultOfgrowth,
     savedBackup: state.calculatedData.savedBackup,
     deathRatio: state.calculatedData.deathRatio,
@@ -21,25 +21,37 @@ const mapGraphStateToProps = (state) => {
     fleetSize: state.calculatedData.fleetSize,
     displayGraph: state.calculatedData.displayGraph
   };
+  return objToKeep;
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log('Is this evaluate first???');
   return {
-    buildGrowthBarChart: (resultOfgrowth) => {
+    buildGrowthBarChart: () => {
       dispatch(changeDisplayGraph('growthVsDeath'));
     },
     builPieChart: (resultOfgrowth) => {
-      dispatch(calculateDeathRatio(resultOfgrowth));
+      dispatch({
+        type: 'BUILD_deathRatio',
+        payload: calculateDeathRatio(resultOfgrowth)
+      });
       dispatch(changeDisplayGraph('pieChart'));
     },
     buildShipLossData: (resultOfgrowth) => {
-      dispatch(calculateShipLoss(resultOfgrowth));
-      dispatch(calculateFleetSize(resultOfgrowth));
+      dispatch({
+        type: 'BUILD_shipLossArray',
+        payload: calculateShipLoss(resultOfgrowth)
+      });
+      dispatch({
+        type: 'BUILD_fleetSize',
+        payload: calculateFleetSize(resultOfgrowth)
+      });
       dispatch(changeDisplayGraph('shipLoss'));
     },
     buildProdIncreaseChart: (resultOfgrowth) => {
-      dispatch(calculateProdIncrease(resultOfgrowth));
+      dispatch({
+          type: 'BUILD_shipProduction',
+          payload: calculateProdIncrease(resultOfgrowth)
+        });
       dispatch(changeDisplayGraph('prodIncrease'));
     }
   };

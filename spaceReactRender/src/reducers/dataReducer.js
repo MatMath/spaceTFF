@@ -1,3 +1,5 @@
+import {calculateDeathRatio, calculateShipLoss, calculateFleetSize, calculateProdIncrease} from '../actions/calculationActions';
+
 const calculatedData = (state={
   resultOfgrowth: [],
   savedBackup: [],
@@ -10,7 +12,26 @@ const calculatedData = (state={
   // switch statement here
     switch (action.type) {
       case 'FETCHED_SERVERGROWTH' : {
-        return {...state, resultOfgrowth: [...action.payload]};
+        let objToReturn = {...state,
+          deathRatio: [],
+          shipLossArray: [],
+          shipProduction: [],
+          fleetSize: [],
+          resultOfgrowth: [...action.payload]
+        };
+        // For User experience wise if the user selected a graph and do a new run
+        // we want to keep the graph active (visible) but also not calculate all the possible data of
+        // all the graph at every run. Simple option would be to put displayGraph='', smart processor way is to calculate value on demand.
+        if (state.displayGraph === 'pieChart') {
+          objToReturn.deathRatio= calculateDeathRatio(action.payload);
+        } else if (state.displayGraph === 'shipLoss') {
+          objToReturn.shipLossArray = calculateShipLoss(action.payload);
+          objToReturn.fleetSize = calculateFleetSize(action.payload);
+        } else if (state.displayGraph === 'prodIncrease') {
+          objToReturn.shipProduction = calculateProdIncrease(action.payload);
+        }
+
+        return objToReturn;
       }
       case 'BACKUP_GROWTHRUN' : {
         return {resultOfgrowth: [], savedBackup: [...action.payload]};

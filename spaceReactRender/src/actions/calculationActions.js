@@ -61,28 +61,19 @@ export function calculateDeathRatio (data) {
     }
 
     // calculating the Percentage of each Pieces
-    return {
-      type: 'BUILD_deathRatio',
-      payload: arrToreturn
-    };
+    return arrToreturn;
 }
 
 export function calculateShipLoss (resultOfgrowth) {
-  return {
-    type: 'BUILD_shipLossArray',
-    payload: resultOfgrowth.map((item)=>{
+  // This build the 'shipLossArray' object
+  return resultOfgrowth.map((item)=>{
       return item.shipLoss;
-    })
-  };
+    });
 }
 
 export function calculateFleetSize (resultOfgrowth) {
-  return {
-    type: 'BUILD_fleetSize',
-    payload: resultOfgrowth.map((item)=>{
-      return item.earthFleet.length + item.marsFleet.length;
-    })
-  };
+  // this will return the "fleetSize" calculation.
+  return resultOfgrowth.map((item)=>{ return (item.earthFleet.length + item.marsFleet.length); });
 }
 
 export function changeDisplayGraph (newType) {
@@ -95,8 +86,6 @@ export function changeDisplayGraph (newType) {
 }
 
 export function calculateProdIncrease (resultOfgrowth) {
-  return {
-    type: 'BUILD_shipProduction',
-    payload: resultOfgrowth.map((item)=>{ return item.currentYearItsProd; })
-  };
+  // this will give the 'shipProduction' value
+  return resultOfgrowth.map((item)=>{ return item.currentYearItsProd; });
 }
