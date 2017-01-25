@@ -21,23 +21,7 @@ var yZero = graphHeight - 30; //padding needed for Text
 
 export default class GenericBarGraph extends React.Component {
   // This is the Graph itself.
-  constructor (props) {
-    super(props);
-    this.state = {
-      arrayOfArray: this.getCoordonateOfData(this.props.imputArray),
-      maximum: this.getInputmax(this.props.imputArray),
-      labelArray: this.props.labelArray,
-      xAxisGrid: this.getXAxisGrid(this.props.imputArray[0].length),
-      yAxisGrid: this.getYAxisGrid(this.getInputmax(this.props.imputArray)),
-      axis:{
-        x: this.props.xaxis,
-        y: this.props.yaxis
-      },
-      title: this.props.title
-    };
-  }
   getCoordonateOfData(imputArray) {
-    console.log('getCoordonateOfData:', imputArray);
     let maximumIteration = imputArray[0].length; // SO we have the same Maximum as the xAxisGrid
     let MaxValue = this.getInputmax(imputArray);
     return imputArray.map((subArrayOfData) =>{
@@ -52,13 +36,10 @@ export default class GenericBarGraph extends React.Component {
     });
   }
   getInputmax(imputArray) {
-    console.log('GetInputMax:', imputArray);
       var max = 0;
       let arrOfMax = imputArray.map((arrX) => {
         // console.log('max : ', arrX, arrX.max);
-        console.log('Before Max', arrX);
         let currentMax = Math.max(...arrX);
-        console.log('currentMax:',currentMax);
         if (currentMax > max) {max = currentMax;}
       });
       return max;
@@ -91,7 +72,14 @@ export default class GenericBarGraph extends React.Component {
     return YAxisValue;
   }
   render() {
-    const {arrayOfArray, maximum, labelArray, axis, title, xAxisGrid, yAxisGrid} = this.state;
+    const arrayOfArray = this.getCoordonateOfData(this.props.imputArray);
+    const xAxisGrid = this.getXAxisGrid(this.props.imputArray[0].length);
+    const yAxisGrid = this.getYAxisGrid(this.getInputmax(this.props.imputArray));
+    const axis = {
+      x: this.props.xaxis,
+      y: this.props.yaxis
+    };
+    const {labelArray, title} = this.props;
     return(<div>
       <br></br>
       <svg version="1.2" className={`${styles.graph}`} style={{height: svgHeight+'px', width: svgWidth+'px'}} aria-labelledby="title" role="img">
@@ -118,7 +106,7 @@ export default class GenericBarGraph extends React.Component {
         </g>
         {arrayOfArray.map((dataSet, i) => {
           return(<g key={i} style={{fill: labelArray[i].color, strokeWidth: 1}} data-setname={labelArray[i].label}>
-            {dataSet.map((item, index) =>{
+            {dataSet.map((item) =>{
               return (<circle key={item.cx + item.cy} cx={item.cx} cy={item.cy} data-value={item.value} r="4"></circle>);
             })}
           </g>

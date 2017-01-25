@@ -40,7 +40,6 @@ export default class BarGraph extends React.Component {
     }
 
     let maxPop = Math.max(...[maxMartian, maxDeath, maxMartianBckup, maxDeathBckup]);
-    console.log('maxPop:', maxPop);
     let maximumWidthRatio = 500/maxPop;
     let graphSeparator = Math.round(maxPop/5/100)*100; //Round to the hundrer by basic.
     if (graphSeparator > 1000) {
