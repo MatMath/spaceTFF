@@ -87,7 +87,6 @@ class App extends React.Component {
   }
   render () {
     const {shipConfigurationHelp, riskListHelp, persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years} = this.props;
-    console.log('Props:',this.props);
     return (
       <div className='container'>
 

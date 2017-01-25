@@ -81,8 +81,8 @@ const GraphSection = React.createClass({
         {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></BarGraph>}
         {displayGraph == 'pieChart' && <PieChart deathRatio={deathRatio}></PieChart>}
         {displayGraph == 'shipLoss' && <GenericDotGraph
-          imputArray={[shipLossArray, fleetSize]}
-          labelArray={[{label:'Ship Loss', color:'red'}, {label:'Fleet Size', color:'blue'}]}
+          imputArray={[fleetSize, shipLossArray]}
+          labelArray={[{label:'Fleet Size', color:'blue'}, {label:'Ship Loss', color:'red'}]}
           xaxis='Period'
           yaxis='# Ship'
           title='Ship Loss over time'></GenericDotGraph>}

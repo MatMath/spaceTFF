@@ -47,9 +47,8 @@ export default class GenericBarGraph extends React.Component {
       return max;
   }
   getXAxisGrid(maximum) {
-    maximum = (maximum % 2 !== 0) ? maximum++ : maximum; // Avoid odd and Prime numbers. (link with getCoordonateOfData)
-    let nbrLoop = this.findBiggestModal(maximum);
-    nbrLoop = (nbrLoop < 2) ? 2 : nbrLoop; // Grah with 1 Line is crude. :|
+    let evenMax = (maximum % 2 !== 0) ? maximum + 1 : maximum; // Avoid odd and Prime numbers. (link with getCoordonateOfData)
+    let nbrLoop = this.findBiggestModal(evenMax, 20, 5);
     let XAxisValue = [];
     // I want to have a X grid system not too big so if I have 40 point I want Max 5 Bar?
     // Axis min = 100, Axis Max = 400 --> Spacing = 300/5
@@ -57,28 +56,33 @@ export default class GenericBarGraph extends React.Component {
     for (var i = 0; i <= nbrLoop; i++) {
       XAxisValue.push({
         x: xPadding + (graphWidth - xPadding)/nbrLoop*i,
-        label: parseInt(maximum / nbrLoop * i)
+        label: parseInt(evenMax / nbrLoop * i * 10)/10
       });
     }
     return XAxisValue;
   }
-  findBiggestModal (nbr) {
-    for (var i = nbr; i > 0; i--) {
-      if (nbr % (i - 1) === 0) {return (i-1);}
+  findBiggestModal (nbr, max, min) {
+    for (var i = Math.min(nbr, max); i > 0; i--) {
+      if (nbr % (i - 1) === 0) {
+        return (i-1);
+      }
+      if (i <= min) {
+        return i; // Grah with 1 Line is crude. :| so we add a minimum even if it will be with fraction.
+      }
     }
     return 1; //To avoid receiving a 0 (and crashing?);
   }
   getYAxisGrid(maximum) {
     let YAxisValue = [];
-    let nbrLoop = this.findBiggestModal(maximum);
-    nbrLoop = (nbrLoop < 2) ? 2 : nbrLoop; // Grah with 1 Line is crude. :|
+    let nbrLoop = this.findBiggestModal(maximum, 10, 2);
+
     // I want to have a Y grid system not too big so if I have 40 height I want Max 5 Bar?
     // 0 being the bottom and Max being the top(so smallest number since we go down)
     // if graph height is 400 the 0 should be at the level of the X Axis so 370(graphHeight-yZero) but the graph will be from 0
     for (var i = 0; i <= nbrLoop; i++) {
       YAxisValue.push({
         y: yToppadding + (yZero - yToppadding)/nbrLoop*(nbrLoop-i),
-        label: parseInt(maximum / nbrLoop * i)
+        label: parseInt(maximum / nbrLoop * i *10)/10
       });
     }
     // console.log('YAxisValue: ',YAxisValue, maximum);
