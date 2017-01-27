@@ -14,12 +14,13 @@ import {calculateDeathRatio, changeDisplayGraph, calculateShipLoss, calculateFle
 const mapGraphStateToProps = (state) => {
   let objToKeep = {
     resultOfgrowth: state.calculatedData.resultOfgrowth,
-    savedBackup: state.calculatedData.savedBackup,
+    currentBackup: state.calculatedData.currentBackup,
     deathRatio: state.calculatedData.deathRatio,
     shipLossArray: state.calculatedData.shipLossArray,
     shipProduction: state.calculatedData.shipProduction,
     fleetSize: state.calculatedData.fleetSize,
-    displayGraph: state.calculatedData.displayGraph
+    displayGraph: state.calculatedData.displayGraph,
+    backupLength: state.calculatedData.savedBackup.length
   };
   return objToKeep;
 };
@@ -53,6 +54,12 @@ const mapDispatchToProps = dispatch => {
           payload: calculateProdIncrease(resultOfgrowth)
         });
       dispatch(changeDisplayGraph('prodIncrease'));
+    },
+    changeCurrentBackup: (indexToSelect) => {
+      dispatch({
+          type: 'CHANGE_CURRENT_BACKUP',
+          payload: indexToSelect
+        });
     }
   };
 };
@@ -65,12 +72,31 @@ const GraphSection = React.createClass({
   pieChart() { this.props.builPieChart(this.props.resultOfgrowth);},
   shipLoss() { this.props.buildShipLossData(this.props.resultOfgrowth); },
   prodIncrease() { this.props.buildProdIncreaseChart(this.props.resultOfgrowth); },
+  changeCurrentBackup(event) { this.props.changeCurrentBackup(event.target.value); },
 
   render() {
-    const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize, resultOfgrowth, savedBackup} = this.props;
-    if (resultOfgrowth.length ===0 ) { return (<div></div>); }
+    const {displayGraph, deathRatio, shipLossArray, shipProduction, fleetSize, resultOfgrowth, currentBackup, backupLength} = this.props;
+    var selectorOptions = [];
+    for (let i=0; i < backupLength; i++) {
+      let txt = i;
+      if (i === 0) {
+        txt = 'last backup saved';
+      } else if (i === backupLength - 1) {
+        txt = 'first backup';
+      }
+      selectorOptions.push(<option key={i} value={i}>Go to {txt}</option>);
+    }
+    if (resultOfgrowth.length === 0 ) { return (<div></div>); }
     return (
       <div>
+        <div>
+          {backupLength > 1 &&
+            <select onChange={this.changeCurrentBackup}>
+              {selectorOptions}
+            </select>
+          }
+        </div>
+
         Graph:
         <ul>
           <li onClick={this.growthVsDeath}>Population Growth vs Death occurence</li>
@@ -78,7 +104,7 @@ const GraphSection = React.createClass({
           <li onClick={this.shipLoss}>Number of ship loss over time</li>
           <li onClick={this.prodIncrease}>Ship production increase over time</li>
         </ul>
-        {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={savedBackup}></BarGraph>}
+        {displayGraph == 'growthVsDeath' && <BarGraph resultOfgrowth={resultOfgrowth} savedBackup={currentBackup}></BarGraph>}
         {displayGraph == 'pieChart' && <PieChart deathRatio={deathRatio}></PieChart>}
         {displayGraph == 'shipLoss' && <GenericDotGraph
           imputArray={[fleetSize, shipLossArray]}

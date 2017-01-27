@@ -7,6 +7,7 @@ const calculatedData = (state={
   shipLossArray: [],
   shipProduction: [],
   fleetSize: [],
+  currentBackup: [],
   displayGraph: ''
 }, action) => {
   // switch statement here
@@ -34,7 +35,13 @@ const calculatedData = (state={
         return objToReturn;
       }
       case 'BACKUP_GROWTHRUN' : {
-        return {resultOfgrowth: [], savedBackup: [...action.payload]};
+        let newBackup = [];
+        newBackup.unshift(action.payload, ...state.savedBackup);
+        // This will create [[run2], [run1], [run0]]
+        return {...state, displayGraph: '', resultOfgrowth: [], savedBackup: newBackup, currentBackup: [...action.payload]};
+      }
+      case 'CHANGE_CURRENT_BACKUP' : {
+        return {...state, currentBackup: state.savedBackup[action.payload]};
       }
       case 'BUILD_deathRatio' : {
         return {...state, deathRatio: [...action.payload]};
