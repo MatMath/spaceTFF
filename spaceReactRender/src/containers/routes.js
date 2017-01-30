@@ -3,12 +3,13 @@
 import React from 'react';
 import { Route } from 'react-router';
 import App from './app.jsx';
-// import GraphSection from './graphSection.jsx';
+import CostCalculation from './costCalculation.jsx';
+
 import HomePage from './homepage';
 
 export default <div>
   <Route path="/mars" component={App}></Route>
-  {/* <GraphSection /> */}
+  <Route path="/cost" component={CostCalculation}></Route>
   <Route path="/" component={HomePage}>
   </Route>;
 </div>

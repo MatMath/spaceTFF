@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // modules
+import GraphSection from './graphSection.jsx';
 import TableDisplay from '../components/tableDisplay.jsx';
 import HelpComponentList from '../components/helpComponent.jsx';
 let localAddress = process.env.API_HTTP_SERVER;
@@ -308,6 +309,7 @@ class App extends React.Component {
 
         {/* Table display can be here since it is a Dumb component */}
         {resultOfgrowth.length > 0 && <TableDisplay resultOfgrowth={resultOfgrowth}></TableDisplay>}
+        <GraphSection />
       </div>
     );
   }
