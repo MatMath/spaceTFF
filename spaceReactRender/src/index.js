@@ -6,13 +6,11 @@ import { Provider } from 'react-redux';  //We render the provider that provide t
 import { browserHistory, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Router } from 'react-router';
-// import routes from './containers/routes';
+
 
 // Code
+import routes from './containers/routes';
 import Errorpage from './containers/errorpage';
-import App from './containers/app.jsx';
-import CostCalculation from './containers/costCalculation.jsx';
-import HomePage from './containers/homepage';
 // Redux Store
 import store from './store';
 const history = syncHistoryWithStore(browserHistory, store);
@@ -23,13 +21,7 @@ if (true) {
   // TODO: Make Error hook work but where and from where? Routing?
   render(
     <Provider store={store}>
-      <Router history={history}>
-        <Route path="/" component={HomePage}>;
-          <Route path="/cost" component={CostCalculation} />
-          <Route path="/mars" component={App} />
-          <Route path="*" component={Errorpage} />
-        </Route>
-      </Router>
+      <Router history={history} routes={routes} />
     </Provider>,
     document.getElementById('root')
   );
