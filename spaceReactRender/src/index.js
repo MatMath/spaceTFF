@@ -3,14 +3,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';  //We render the provider that provide the store to React.
-import { browserHistory } from 'react-router';
+import { browserHistory, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Router } from 'react-router';
-import routes from './containers/routes';
+// import routes from './containers/routes';
 
 // Code
 import Errorpage from './containers/errorpage';
-
+import App from './containers/app.jsx';
+import CostCalculation from './containers/costCalculation.jsx';
+import HomePage from './containers/homepage';
 // Redux Store
 import store from './store';
 const history = syncHistoryWithStore(browserHistory, store);
@@ -21,7 +23,13 @@ if (true) {
   // TODO: Make Error hook work but where and from where? Routing?
   render(
     <Provider store={store}>
-      <Router history={history} routes={routes} />
+      <Router history={history}>
+        <Route path="/" component={HomePage}>;
+          <Route path="/cost" component={CostCalculation} />
+          <Route path="/mars" component={App} />
+          <Route path="*" component={Errorpage} />
+        </Route>
+      </Router>
     </Provider>,
     document.getElementById('root')
   );

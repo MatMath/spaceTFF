@@ -3,15 +3,12 @@ import React from 'react';
 import { Link } from 'react-router';
 
 class HomePage extends React.Component {
-	constructor (props) {
-    super(props);
-  }
 	render() {
 		return (
 			<div>
-        <Link to={'/mars'}>Population projection </Link>
-        <hr />
-        <Link to={'/cost'}>Cost projection </Link>
+        <Link to="/mars">Population projection</Link>
+        <Link to="/cost">Cost projection</Link>
+        {this.props.children}
 			</div>
 		);
 	}
