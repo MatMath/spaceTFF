@@ -13,7 +13,11 @@ data.blankYear = () => {
    totKilledIn: {},
    shipLoss: 0,
    cummulativeLife: 0,
-   currentYearItsProd: 0
+   currentYearItsProd: 0,
+   yearLaunch:{
+     cargo: 0,
+     crew: 0
+   }
  });
 };
 

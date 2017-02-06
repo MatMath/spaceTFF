@@ -71,6 +71,10 @@ calc.calcOneYear = (currentYear, parameters) => {
  itsEngine = parameters.itsEngine,
  touristRatio = parameters.touristRatio,
  reusabilityOfShip = parameters.reusabilityOfShip;
+ let yearLaunch = {
+   cargo: parameters.cargo.current,
+   crew: persPerShip
+ }
 
   // Steps: Way there
   // Launch from Earth to Orbit
@@ -193,7 +197,8 @@ calc.calcOneYear = (currentYear, parameters) => {
     marsFleet: currentYear.earthFleet,
     totKilledIn: death,
     shipLoss: shipLoss,
-    cummulativeLife: sumObj(death)
+    cummulativeLife: sumObj(death),
+    yearLaunch: yearLaunch
   };
   // console.log(objToReturn);
   return objToReturn;
@@ -203,6 +208,7 @@ improveParam = (param) => {
   // es7 spread would be more simple here, but I dont feel like adding transpiler in this tiny project.
   let improvement = 1 - param.improvement;
   let functionalParamObj = Object.assign({}, param);
+  functionalParamObj.cargo = Object.assign({}, param.cargo);
   functionalParamObj.engineMalfunction = param.engineMalfunction * improvement;
   functionalParamObj.refuilingDefect = param.refuilingDefect * improvement;
   functionalParamObj.landingFaillure = param.landingFaillure * improvement;
@@ -239,8 +245,7 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
   }
 
   // Add Improvement of technology.
-  param = improveParam(param);
-  return calc.iterateThat(startingData, param, maxIter, maxNbr, shipProduction);
+  return calc.iterateThat(startingData, improveParam(param), maxIter, maxNbr, shipProduction);
 
 };
 

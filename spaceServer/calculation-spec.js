@@ -201,6 +201,27 @@ sumObj = ( obj ) => {
      expect(resultOfAllYear.length).toEqual(100);
    });
 
+   it('Test the iteration structure, with Ship Population Growth', () => {
+     let startPoint = dataStructure.blankYear();
+     startPoint.earthFleet.push(dataStructure.newShip());
+
+     parameters.persPerShip = 0;
+     parameters.cargo.current = 500;
+     parameters.persIncreasePertrip = 10;
+
+     let expectedCrew = {
+       cargo: 300,
+       crew: 100
+     }
+
+     let resultOfAllYear = calc.iterateThat([startPoint], parameters, 20, 2000, 1);
+    // I said 20 iteration OR 2000, but after 10 loop I should hit a constant ship crew of 100 and a cargo of 300.
+     expect(resultOfAllYear[1].yearLaunch).toEqual({ cargo: parameters.cargo.current, crew: parameters.persPerShip });
+     expect(resultOfAllYear[1].cummulativeLife + resultOfAllYear[1].martian).toEqual(10);
+     expect(resultOfAllYear[2].cummulativeLife + resultOfAllYear[2].martian).toEqual(50); // 10 from first year + 2*20 from trip 2. --> Still have to check how fast ship return back.
+     expect(resultOfAllYear[resultOfAllYear.length -1].yearLaunch).toEqual(expectedCrew);
+   });
+
    it('test Ship increase with no faillure', () => {
      parameters.probIncreaseProdOfIts = 1;
      parameters.itsIncreaseOf = 10; //10 new ship per time with 100% success.
