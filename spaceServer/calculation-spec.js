@@ -231,5 +231,74 @@ sumObj = ( obj ) => {
 
    });
 
+   it('test the transferCargoToCrew system, generic value', () => {
+     let persPerShip = 50;
+     let maxPersPerShip = 100;
+     let persIncreasePertrip = 10;
+     let cargo = {
+       initial: 500,
+       current: 500,
+       final: 300,
+       tonsPerPerson: 5
+     };
+     let expectation = {
+       persPerShip: 60,
+       currentCargo: 450
+     }
+     expect(calc.transferCargoToCrew(persPerShip, maxPersPerShip, cargo, persIncreasePertrip)).toEqual(expectation);
+   });
+
+   it('test the transferCargoToCrew system, lower Extreme', () => {
+     let persPerShip = 0;
+     let maxPersPerShip = 100;
+     let persIncreasePertrip = 50;
+     let cargo = {
+       initial: 500,
+       current: 500,
+       final: 300,
+       tonsPerPerson: 2
+     };
+     let expectation = {
+       persPerShip: 50,
+       currentCargo: 400
+     }
+     expect(calc.transferCargoToCrew(persPerShip, maxPersPerShip, cargo, persIncreasePertrip)).toEqual(expectation);
+   });
+
+   it('test the transferCargoToCrew system, half full Value', () => {
+     let persPerShip = 99;
+     let maxPersPerShip = 100;
+     let persIncreasePertrip = 10;
+     let cargo = {
+       initial: 500,
+       current: 302,
+       final: 300,
+       tonsPerPerson: 2
+     };
+     let expectation = {
+       persPerShip: 100,
+       currentCargo: 300
+     }
+     expect(calc.transferCargoToCrew(persPerShip, maxPersPerShip, cargo, persIncreasePertrip)).toEqual(expectation);
+   });
+
+   it('test the transferCargoToCrew system, full Value', () => {
+     let persPerShip = 100;
+     let maxPersPerShip = 100;
+     let persIncreasePertrip = 10;
+     let cargo = {
+       initial: 500,
+       current: 300,
+       final: 300,
+       tonsPerPerson: 2
+     };
+     let expectation = {
+       persPerShip: 100,
+       currentCargo: 300
+     }
+     expect(calc.transferCargoToCrew(persPerShip, maxPersPerShip, cargo, persIncreasePertrip)).toEqual(expectation);
+   });
+
+
 
  });

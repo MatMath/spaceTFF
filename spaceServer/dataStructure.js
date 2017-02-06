@@ -45,6 +45,14 @@ data.parameters = () => {
   return Object.assign({},
     {
       persPerShip: 100,
+      cargo: {
+        initial: 500,
+        current: 300,
+        final: 300,
+        tonsPerPerson: 2
+      },
+      persIncreasePertrip: 5,
+      maxPersPerShip: 100,
       engineMalfunction: 0.01,
       refuilingDefect: 0.02,
       landingFaillure: 0.05,

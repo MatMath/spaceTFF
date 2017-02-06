@@ -31,13 +31,39 @@ calc.shouldItFail = (nbrTime, failRatio) => {
   return true; //All Good.
 };
 
-calc.launchToSpaceFromEarth = () => {
+calc.transferCargoToCrew = (persPerShip, maxPersPerShip, cargo, persIncreasePertrip) => {
+  let currentCrew = persPerShip;
+  let currentCargo = cargo.current;
+  // cargo: {
+  //   initial: 500,
+  //   current: 300,
+  //   final: 300,
+  //   tonsPerPerson: 2
+  // }
 
-};
+  // Step1: Should we increase or we are at maximum?
+  if (currentCrew < maxPersPerShip) {
+    // Check if we add the max we bust the calculation or not
+    if (currentCrew + persIncreasePertrip < maxPersPerShip) {
+      // Great
+      currentCrew += persIncreasePertrip;
+      currentCargo -= (cargo.tonsPerPerson * persIncreasePertrip);
+    } else {
+      // Do a prorata of people.
+      currentCargo -= (cargo.tonsPerPerson * (maxPersPerShip - currentCrew));
+      currentCrew = maxPersPerShip;
+      // Step2: Transfer the cargo to crew
+    }
+  }
+  return {
+    persPerShip: currentCrew,
+    currentCargo: currentCargo
+  }
+}
 
 calc.calcOneYear = (currentYear, parameters) => {
- let persPerShip = parameters.persPerShip,
- engineMalfunction = parameters.engineMalfunction,
+ let persPerShip = parameters.persPerShip;
+ let engineMalfunction = parameters.engineMalfunction,
  refuilingDefect = parameters.refuilingDefect,
  landingFaillure = parameters.landingFaillure,
  firstStageEngine = parameters.firstStageEngine,
