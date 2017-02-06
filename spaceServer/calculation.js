@@ -200,11 +200,16 @@ calc.calcOneYear = (currentYear, parameters) => {
 };
 
 improveParam = (param) => {
+  // es7 spread would be more simple here, but I dont feel like adding transpiler in this tiny project.
   let improvement = 1 - param.improvement;
-  param.engineMalfunction = param.engineMalfunction * improvement;
-  param.refuilingDefect = param.refuilingDefect * improvement;
-  param.landingFaillure = param.landingFaillure * improvement;
-  return param;
+  let functionalParamObj = Object.assign({}, param);
+  functionalParamObj.engineMalfunction = param.engineMalfunction * improvement;
+  functionalParamObj.refuilingDefect = param.refuilingDefect * improvement;
+  functionalParamObj.landingFaillure = param.landingFaillure * improvement;
+  let crewCargo = calc.transferCargoToCrew(param.persPerShip, param.maxPersPerShip, param.cargo, param.persIncreasePertrip);
+  functionalParamObj.persPerShip = crewCargo.persPerShip;
+  functionalParamObj.cargo.current = crewCargo.currentCargo;
+  return functionalParamObj;
 };
 
 calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
