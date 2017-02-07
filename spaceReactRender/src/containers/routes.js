@@ -14,4 +14,4 @@ export default <div>
     <Route path="/mars" component={App} />
     <Route path="*" component={Errorpage} />
   </Route>
-</div>
+</div>;

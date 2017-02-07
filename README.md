@@ -10,19 +10,27 @@ In each folder run:
 To deploy on a AWS server you need to build it so look at **AWS_setup.txt**
 
 ## Server side: "SpaceServer"
-The server side contain all the matematical calculation for probability. The front-end send a list of requirement like:
+The server side contain all the mathematical calculation for probability. The front-end send a list of requirement like:
 ```
 {
     "persPerShip":100,
+    cargo: {
+      initial: 500,     --> Empty crew capacity (t)
+      current: 300,     --> Current cargo weight (t)
+      final: 300,       --> Full crew capacity (t)
+      tonsPerPerson: 2  --> Cargo weight reduction per new passenger
+    },
+    persIncreasePertrip: 5,   --> Each new sequence how many cargo to people get modified
+    maxPersPerShip: 100,      --> ITS maximum capacity
     "engineMalfunction":0.01, --> Chance that each engine break every time we start it
-    "refuilingDefect":0.02,   --> Chance that refuiling (land or space) cause defect
+    "refuilingDefect":0.02,   --> Chance that refueling (land or space) cause defect
     "landingFaillure":0.05,   --> Chance to crash
     "reusabilityOfShip":5,    --> Nbr of time a ITS can be reused
-    "improvement":0.05,       --> Reducing the faillure by x% 2% * (1-5%)
+    "improvement":0.05,       --> Reducing the failure by x% 2% * (1-5%)
     "firstStageEngine":42,    --> Nbr of engine used to exit air
     "itsEngine":9,            --> Nbr of engine in the ITS
     "touristRatio":0.3,       --> Nbr of tourist that return on each trip (after 2 year).
-    "orbitRefulling":4,       --> Nbr of refuiling needed in space.
+    "orbitRefulling":4,       --> Nbr of refueling needed in space.
     "probIncreaseProdOfIts":0.2,  --> Chance we can produce more ship per year
     "itsIncreaseOf":1,    --> Quantity increase if we produce more
     "maxPop":1000000,     --> Population to reach
