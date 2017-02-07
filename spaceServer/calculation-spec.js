@@ -238,6 +238,41 @@ sumObj = ( obj ) => {
 
    });
 
+   it('test Population & Ship increase with no faillure', () => {
+     parameters.probIncreaseProdOfIts = 1;
+     parameters.itsIncreaseOf = 1; //10 new ship per time with 100% success.
+     parameters.reusabilityOfShip = 1;
+
+     let startPoint = dataStructure.blankYear();
+
+     startPoint.earthFleet.push(dataStructure.newShip());
+
+     let resultOfAllYear = calc.iterateThat([startPoint], parameters, 10, 10000, 1);
+     lastYear = resultOfAllYear[resultOfAllYear.length - 1];
+    //  Start with 1, then 1 return (discard it), we add 1 = 2 (10 time) --> Mars should have 9 landed.
+     expect(lastYear.marsFleet.length).toEqual(9);
+    //  We increase of 1 per year for 10 years so year 10 = 10 new ship.
+     expect(lastYear.currentYearItsProd).toEqual(10);
+   });
+
+   it('test Population & Ship increase with no faillure, reuse 2', () => {
+     parameters.probIncreaseProdOfIts = 1;
+     parameters.itsIncreaseOf = 1; //10 new ship per time with 100% success.
+     parameters.reusabilityOfShip = 2;
+
+     let startPoint = dataStructure.blankYear();
+
+     startPoint.earthFleet.push(dataStructure.newShip());
+
+     let resultOfAllYear = calc.iterateThat([startPoint], parameters, 10, 10000, 1);
+     lastYear = resultOfAllYear[resultOfAllYear.length - 1];
+    //  Since it take 2 sequence to have a ship reused at year 10 Mars send back Sequence 9 + Sequence 7 (Confusing I know, see Readme ;)
+     expect(lastYear.marsFleet.length).toEqual(9+7);
+    //  We increase of 1 per year for 10 years so year 10 = 10 new ship.
+     expect(lastYear.currentYearItsProd).toEqual(10);
+     expect(lastYear.earthFleet.length).toEqual(10+8); //(Year 10 + prod of year 8 that returned from Mars.)
+   });
+
    it('test no-Ship increase with no faillure', () => {
      parameters.probIncreaseProdOfIts = 0;
      parameters.itsIncreaseOf = 1; //1 new ship per time with 0% success. --> No new ship
