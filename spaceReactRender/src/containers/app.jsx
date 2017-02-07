@@ -12,13 +12,16 @@ let localAddress = process.env.API_HTTP_SERVER;
 // The API_HTTP_SERVER is currently set to the AWS server. The config is in the Webpack.config.js module on top.
 
 // Loading actions
-import { changeYears, changeMaxPopulation, change_baseParam_paramServer } from '../actions/paramActions';
+import { changeYears, changeMaxPopulation, change_baseParam_paramServer, changeCargoItem, change_baseParam_paramServer_maxPersPerShip, change_baseParam_paramServer_persPerShip } from '../actions/paramActions';
 import { getGrowthProjection, saveThisBackup } from '../actions/fetchActions';
 
 const mapStateToProps = state => {
     // Similar to "state" in React, this will get the Passed value or the default value from the store.
     return {
       persPerShip: state.baseParam.paramServer.persPerShip,
+      cargo: state.baseParam.paramServer.cargo,
+      persIncreasePertrip: state.baseParam.paramServer.persIncreasePertrip,
+      maxPersPerShip: state.baseParam.paramServer.maxPersPerShip,
       engineMalfunction: state.baseParam.paramServer.engineMalfunction,
       refuilingDefect: state.baseParam.paramServer.refuilingDefect,
       landingFaillure: state.baseParam.paramServer.landingFaillure,
@@ -34,11 +37,9 @@ const mapStateToProps = state => {
       years: state.baseParam.paramRun.years,
       resultOfgrowth: state.calculatedData.resultOfgrowth,
       savedBackup: state.calculatedData.savedBackup,
-      shipConfigurationHelp: ['Person per ship: Number of person that fit in each ship.',
-      'Reusability of ship: Number of trip a ship can do before being recycled',
+      shipConfigurationHelp: ['Reusability of ship: Number of trip a ship can do before being recycled',
       'First Stage Engine: Number of Engine that lift the first stage',
       'ITS Engine: Number of engine inside the Interplanettery Transport System',
-      'Tourist Ratio: Number of people that return in each ship (when available) (tourist)',
       'Orbit Refulling: Number of refuelling in orbit needed'],
       riskListHelp: ['TakeOff (Each engine)',
       'Refueling (each time)',
@@ -78,6 +79,18 @@ class App extends React.Component {
       this.props.dispatch(change_baseParam_paramServer(key, value));
     }
   }
+  changeCargoCapacity (key, event) {
+    let value = (isNaN(parseInt(event.target.value)) === true) ? '' : parseInt(event.target.value);
+    this.props.dispatch(changeCargoItem(key, this.props.cargo, value, this.props.persPerShip, this.props.maxPersPerShip));
+  }
+  change_maxPersPerShip (event) {
+    let value = (isNaN(parseInt(event.target.value)) === true) ? '' : parseInt(event.target.value);
+    this.props.dispatch(change_baseParam_paramServer_maxPersPerShip(value, this.props.cargo, this.props.persPerShip));
+  }
+  change_persPerShip (event) {
+    let value = (isNaN(parseInt(event.target.value)) === true) ? '' : parseInt(event.target.value);
+    this.props.dispatch(change_baseParam_paramServer_persPerShip(value, this.props.cargo, this.props.maxPersPerShip));
+  }
   getGrowthProjection() {
     // TODO: A reorganisation of only the data we need to send is good idea instead of the growing list data.
     this.props.dispatch(getGrowthProjection(localAddress, this.props));
@@ -87,7 +100,7 @@ class App extends React.Component {
     this.props.dispatch(saveThisBackup(backup));
   }
   render () {
-    const {shipConfigurationHelp, riskListHelp, persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years} = this.props;
+    const {cargo, persIncreasePertrip, maxPersPerShip, shipConfigurationHelp, riskListHelp, persPerShip, engineMalfunction, refuilingDefect, landingFaillure, reusabilityOfShip, improvement, firstStageEngine, itsEngine, touristRatio, orbitRefulling, probIncreaseProdOfIts, itsIncreaseOf, resultOfgrowth, maxPop, years} = this.props;
     return (
       <div className='container'>
 
@@ -152,17 +165,6 @@ class App extends React.Component {
         <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-              <label className='col-sm-6 control-label'>Person per ship</label>
-              <div className='col-sm-6'>
-                <input type='number' className='form-control'
-                  min='0'
-                  value={persPerShip}
-                  onChange={this.changeNumberValue.bind(this, 'persPerShip')} />
-              </div>
-            </div>
-          </div>
-          <div className='col-md-6'>
-            <div className='form-group'>
               <label className='col-sm-6 control-label'>Reusability of ship</label>
               <div className='col-sm-6'>
                 <input type='number' className='form-control'
@@ -171,6 +173,19 @@ class App extends React.Component {
                   max='50'
                   value={reusabilityOfShip}
                   onChange={this.changeNumberValue.bind(this, 'reusabilityOfShip')} />
+              </div>
+            </div>
+          </div>
+          <div className='col-md-6'>
+            <div className='form-group'>
+              <label className='col-sm-6 control-label'>Orbit Refulling</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  step='1'
+                  min='0'
+                  max='50'
+                  value={orbitRefulling}
+                  onChange={this.changeNumberValue.bind(this, 'orbitRefulling')} />
               </div>
             </div>
           </div>
@@ -203,7 +218,52 @@ class App extends React.Component {
           </div>
         </div>
 
+        <div className='row col-xs-12'>
+          <HelpComponentList msgArray={shipConfigurationHelp}></HelpComponentList>
+        </div>
+
+        <div className={`row col-xs-12 bg-info ${styles.splitSection}`}>Crew & Cargo configuration </div>
         <div className='row'>
+          <div className='col-md-6'>
+            <div className='form-group'>
+              <label className='col-sm-6 control-label'>Maximum crew per ship</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  step='1'
+                  value={maxPersPerShip}
+                  onChange={this.change_maxPersPerShip.bind(this)} />
+              </div>
+            </div>
+          </div>
+          <div className='col-md-6'>
+            <div className='form-group'>
+              <label className='col-sm-6 control-label'>Starting crew #</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  step='1'
+                  max={maxPersPerShip}
+                  value={persPerShip}
+                  onChange={this.change_persPerShip.bind(this)} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-md-6'>
+            <div className='form-group'>
+              <label className='col-sm-6 control-label'>Crew augmentation per transfers</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='0'
+                  step='1'
+                  max='100'
+                  value={persIncreasePertrip}
+                  onChange={this.changeNumberValue.bind(this, 'persIncreasePertrip')} />
+              </div>
+            </div>
+          </div>
           <div className='col-md-6'>
             <div className='form-group'>
               <label className='col-sm-6 control-label'>Tourist Ratio</label>
@@ -217,22 +277,38 @@ class App extends React.Component {
               </div>
             </div>
           </div>
+        </div>
+        <div className='row'>
           <div className='col-md-6'>
             <div className='form-group'>
-              <label className='col-sm-6 control-label'>Orbit Refulling</label>
+              <label className='col-sm-6 control-label'>Max cargo capacity (t)</label>
               <div className='col-sm-6'>
                 <input type='number' className='form-control'
+                  min={cargo.final}
                   step='1'
-                  min='0'
-                  max='50'
-                  value={orbitRefulling}
-                  onChange={this.changeNumberValue.bind(this, 'orbitRefulling')} />
+                  max='1000'
+                  value={cargo.initial}
+                  onChange={this.changeCargoCapacity.bind(this, 'initial')} />
+              </div>
+            </div>
+          </div>
+          <div className='col-md-6'>
+            <div className='form-group'>
+              <label className='col-sm-6 control-label'>Full crew min cargo capacity (t)</label>
+              <div className='col-sm-6'>
+                <input type='number' className='form-control'
+                  min='300'
+                  step='1'
+                  max='1000'
+                  value={cargo.final}
+                  onChange={this.changeCargoCapacity.bind(this, 'final')} />
               </div>
             </div>
           </div>
         </div>
         <div className='row col-xs-12'>
-          <HelpComponentList msgArray={shipConfigurationHelp}></HelpComponentList>
+          <p>Current payload: {cargo.current}</p>
+          <p>Payload per crew: {cargo.tonsPerPerson} (Less people mean more payload)</p>
         </div>
 
         <div className={`row col-xs-12 bg-info ${styles.splitSection}`}> Production increase </div>

@@ -1,6 +1,14 @@
 const baseParam = (state={
   paramServer: {
     persPerShip: 100,
+    cargo: {
+      initial: 500,
+      current: 300,
+      final: 300,
+      tonsPerPerson: 2
+    },
+    persIncreasePertrip: 5,
+    maxPersPerShip: 100,
     engineMalfunction: 0.01,
     refuilingDefect: 0.02,
     landingFaillure: 0.05,
@@ -33,7 +41,7 @@ const baseParam = (state={
       }
 
       case 'CHANGE_BASEPARAM_PARAMSERVER_persPerShip': {
-        return { ...state, paramServer: { ...state.paramServer, persPerShip: action.payload } };
+        return { ...state, paramServer: { ...state.paramServer, persPerShip: action.payload, cargo:{...action.cargo} } };
       }
       case 'CHANGE_BASEPARAM_PARAMSERVER_engineMalfunction': {
         return { ...state, paramServer: { ...state.paramServer, engineMalfunction: action.payload } };
@@ -67,6 +75,15 @@ const baseParam = (state={
       }
       case 'CHANGE_BASEPARAM_PARAMSERVER_itsIncreaseOf': {
         return { ...state, paramServer: { ...state.paramServer, itsIncreaseOf: action.payload } };
+      }
+      case 'CHANGE_BASEPARAM_PARAMSERVER_persIncreasePertrip': {
+        return { ...state, paramServer: { ...state.paramServer, persIncreasePertrip: action.payload } };
+      }
+      case 'CHANGE_BASEPARAM_PARAMSERVER_maxPersPerShip': {
+        return { ...state, paramServer: { ...state.paramServer, maxPersPerShip: action.payload, cargo: {...action.cargo} } };
+      }
+      case 'CHANGE_BASEPARAM_PARAMSERVER_cargo': {
+        return { ...state, paramServer: { ...state.paramServer, cargo: {...action.payload} } };
       }
 
       case 'CHANGE_PARAMRUN_POPULATION': {
