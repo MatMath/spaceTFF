@@ -61,7 +61,10 @@ calc.transferCargoToCrew = (persPerShip, maxPersPerShip, cargo, persIncreasePert
   }
 }
 
-calc.calcOneYear = (currentYear, parameters) => {
+calc.calcOneYear = (currentYear, parameters, shipProduction) => {
+ let scopedYear = Object.assign({}, currentYear);
+ scopedYear.earthFleet = [...currentYear.earthFleet] // Because Object.assign do not do a deep copy.
+ scopedYear.marsFleet = [...currentYear.marsFleet] // Because Object.assign do not do a deep copy.
  let persPerShip = parameters.persPerShip;
  let engineMalfunction = parameters.engineMalfunction,
  refuilingDefect = parameters.refuilingDefect,
@@ -71,17 +74,13 @@ calc.calcOneYear = (currentYear, parameters) => {
  itsEngine = parameters.itsEngine,
  touristRatio = parameters.touristRatio,
  reusabilityOfShip = parameters.reusabilityOfShip;
- let yearLaunch = {
-   cargo: parameters.cargo.current,
-   crew: persPerShip
- }
 
   // Steps: Way there
   // Launch from Earth to Orbit
   let shipLoss = 0;
   let death = data.killedOption();
-  let nbrBefore = currentYear.earthFleet.length;
-  currentYear.earthFleet = currentYear.earthFleet.filter(() => {
+  let nbrBefore = scopedYear.earthFleet.length;
+  scopedYear.earthFleet = scopedYear.earthFleet.filter(() => {
       // We currently dont care about the object itself, we just want to randomely check if it pass or fail
       // if it fail it is automatically removed from the list. so we can test the next risk.
       let failOrNot = calc.shouldItFail(firstStageEngine, engineMalfunction);
@@ -94,7 +93,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   );
 
   // Refuel in orbit (4x)
-  currentYear.earthFleet = currentYear.earthFleet.filter(() => {
+  scopedYear.earthFleet = scopedYear.earthFleet.filter(() => {
     let failOrNot = calc.shouldItFail(orbitRefulling, refuilingDefect);
     if (!failOrNot) {
       shipLoss++;
@@ -104,7 +103,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   });
 
   // Launch to Next planet
-  currentYear.earthFleet = currentYear.earthFleet.filter(() => {
+  scopedYear.earthFleet = scopedYear.earthFleet.filter(() => {
     let failOrNot = calc.shouldItFail(itsEngine, engineMalfunction);
     if (!failOrNot) {
       shipLoss++;
@@ -114,7 +113,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   });
 
   // Decelerate on arrival
-  currentYear.earthFleet = currentYear.earthFleet.filter(() => {
+  scopedYear.earthFleet = scopedYear.earthFleet.filter(() => {
     let failOrNot = calc.shouldItFail(itsEngine, engineMalfunction);
     if (!failOrNot) {
       shipLoss++;
@@ -124,7 +123,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   });
 
   // landing
-  currentYear.earthFleet = currentYear.earthFleet.filter(() => {
+  scopedYear.earthFleet = scopedYear.earthFleet.filter(() => {
     let failOrNot = calc.shouldItFail(1, landingFaillure);
     if (!failOrNot) {
       shipLoss++;
@@ -136,7 +135,7 @@ calc.calcOneYear = (currentYear, parameters) => {
 
   // "Same time" Take what is on mars already.
   // Refulling (1x) --> No casulty if fail, just lost of ship.
-  currentYear.marsFleet = currentYear.marsFleet.filter(() => {
+  scopedYear.marsFleet = scopedYear.marsFleet.filter(() => {
     let failOrNot = calc.shouldItFail(1, refuilingDefect);
     if (!failOrNot) {
       // No casulty if fail, just lost of ship.
@@ -145,12 +144,12 @@ calc.calcOneYear = (currentYear, parameters) => {
     }
     return failOrNot;
   });
-  currentYear.martian += currentYear.earthFleet.length * persPerShip; //Amount that survived the journey.
+  scopedYear.martian += scopedYear.earthFleet.length * persPerShip; //Amount that survived the journey.
 
-  let nbrMarsStart = currentYear.marsFleet.length; //No loss at refueling since it is done empty of people.
+  let nbrMarsStart = scopedYear.marsFleet.length; //No loss at refueling since it is done empty of people.
   // Depart of tourist from land.
-  currentYear.martian -= Math.round(currentYear.marsFleet.length * touristRatio * persPerShip);
-  currentYear.marsFleet = currentYear.marsFleet.filter(() => {
+  scopedYear.martian -= Math.round(scopedYear.marsFleet.length * touristRatio * persPerShip);
+  scopedYear.marsFleet = scopedYear.marsFleet.filter(() => {
     let failOrNot = calc.shouldItFail(itsEngine, engineMalfunction);
     if (!failOrNot) {
       shipLoss++;
@@ -160,7 +159,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   });
 
   // Decelerating on Earth
-  currentYear.marsFleet = currentYear.marsFleet.filter(() => {
+  scopedYear.marsFleet = scopedYear.marsFleet.filter(() => {
     let failOrNot = calc.shouldItFail(itsEngine, engineMalfunction);
     if (!failOrNot) {
       shipLoss++;
@@ -170,7 +169,7 @@ calc.calcOneYear = (currentYear, parameters) => {
   });
 
   // Landing back on Earth.
-  currentYear.marsFleet = currentYear.marsFleet.filter(() => {
+  scopedYear.marsFleet = scopedYear.marsFleet.filter(() => {
     let failOrNot = calc.shouldItFail(1, landingFaillure);
     if (!failOrNot) {
       shipLoss++;
@@ -182,25 +181,25 @@ calc.calcOneYear = (currentYear, parameters) => {
 
   // Adding 1 trip to all ship and retirering old one.
   let activeFleet = [];
-  for (var i = 0; i < currentYear.marsFleet.length; i++) {
-    currentYear.marsFleet[i].trip ++;
-    if (currentYear.marsFleet[i].trip < reusabilityOfShip) {
-      activeFleet.push(currentYear.marsFleet[i]);
+  for (var i = 0; i < scopedYear.marsFleet.length; i++) {
+    scopedYear.marsFleet[i].trip ++;
+    if (scopedYear.marsFleet[i].trip < reusabilityOfShip) {
+      activeFleet.push(scopedYear.marsFleet[i]);
     }
 
   }
 
   // Noticed that Mars and Earth fleet are inversed. This is because What left from Earth is now on the surface of Mars and vice versa.
   let objToReturn = {
-    martian: currentYear.martian,
+    martian: scopedYear.martian,
     earthFleet: activeFleet,
-    marsFleet: currentYear.earthFleet,
+    marsFleet: scopedYear.earthFleet,
     totKilledIn: death,
     shipLoss: shipLoss,
     cummulativeLife: sumObj(death),
-    yearLaunch: yearLaunch
+    currentYearItsProd: shipProduction
   };
-  // console.log(objToReturn);
+  // console.log('NEW YEAR:',objToReturn);
   return objToReturn;
 };
 
@@ -231,18 +230,26 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
     return startingData;
   }
 
-  // Before we Push the next row:
-  startingData.push(calc.calcOneYear(startingData[startingData.length - 1], param));
-  startingData[startingData.length - 1].cummulativeLife += startingData[startingData.length - 2].cummulativeLife;
-  // startingData[startingData.length - 1].shipLoss += startingData[startingData.length - 2].shipLoss;
-
-  if(calc.shouldItFail(1, 1 - param.probIncreaseProdOfIts)) {
-      shipProduction += param.itsIncreaseOf;
-  }
+  // The Generic data start with a fleet of 0, Good. but we need to add one here before calculating the number of people that reach destination on next round.
   startingData[startingData.length - 1].currentYearItsProd = shipProduction;
   for (var i = 0; i < shipProduction; i++) {
     startingData[startingData.length - 1].earthFleet.push(data.newShip());
   }
+
+  // We need to set that here because the Crew will depart with the Earth Fleet just added and go trough testing and then arrive at loop X+1;
+  startingData[startingData.length - 1].yearLaunch = {
+    cargo: param.cargo.current,
+    crew: param.persPerShip
+  };
+
+  // Before we Push the next row: we will have ALL the data we need here (all enclosed)
+  // console.log('startingData:', startingData);
+  startingData.push(calc.calcOneYear(startingData[startingData.length - 1], param, shipProduction));
+  startingData[startingData.length - 1].cummulativeLife += startingData[startingData.length - 2].cummulativeLife;
+  // startingData[startingData.length - 1].shipLoss += startingData[startingData.length - 2].shipLoss;
+
+  // For next round we will have more ship produce or not
+  if(calc.shouldItFail(1, 1 - param.probIncreaseProdOfIts)) { shipProduction += param.itsIncreaseOf; }
 
   // Add Improvement of technology.
   return calc.iterateThat(startingData, improveParam(param), maxIter, maxNbr, shipProduction);

@@ -175,7 +175,6 @@ sumObj = ( obj ) => {
 
    it('Test the iteration structure, no recursion', () => {
      let startPoint = dataStructure.blankYear();
-     startPoint.earthFleet.push(dataStructure.newShip());
 
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 0, 100, 1);
     // 0 would return directely without any recursion.
@@ -184,7 +183,6 @@ sumObj = ( obj ) => {
 
    it('Test the iteration structure, Max NbrPeople', () => {
      let startPoint = dataStructure.blankYear();
-     startPoint.earthFleet.push(dataStructure.newShip());
 
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 50, 2000, 1);
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
@@ -194,7 +192,6 @@ sumObj = ( obj ) => {
 
    it('Test the iteration structure, MaxNbrLoop', () => {
      let startPoint = dataStructure.blankYear();
-     startPoint.earthFleet.push(dataStructure.newShip());
 
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 100, 1000000, 1);
     // I said 50 iteration OR 2000 and after 8 I hit 2000 so I stop.
@@ -203,23 +200,22 @@ sumObj = ( obj ) => {
 
    it('Test the iteration structure, with Ship Population Growth', () => {
      let startPoint = dataStructure.blankYear();
-     startPoint.earthFleet.push(dataStructure.newShip());
 
-     parameters.persPerShip = 0;
-     parameters.cargo.current = 500;
+     parameters.persPerShip = 10;
+     parameters.cargo.current = 480;
      parameters.persIncreasePertrip = 10;
 
      let expectedCrew = {
        cargo: 300,
        crew: 100
      }
-
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 20, 2000, 1);
     // I said 20 iteration OR 2000, but after 10 loop I should hit a constant ship crew of 100 and a cargo of 300.
-     expect(resultOfAllYear[1].yearLaunch).toEqual({ cargo: parameters.cargo.current, crew: parameters.persPerShip });
+     expect(resultOfAllYear[0].yearLaunch).toEqual({ cargo: parameters.cargo.current, crew: parameters.persPerShip }); // I start at Year 0 and ship X crew.
+     expect(resultOfAllYear[0].yearLaunch.crew).toEqual(resultOfAllYear[1].cummulativeLife + resultOfAllYear[1].martian); // at year X+1 I have X martian or dead crew.
      expect(resultOfAllYear[1].cummulativeLife + resultOfAllYear[1].martian).toEqual(10);
-     expect(resultOfAllYear[2].cummulativeLife + resultOfAllYear[2].martian).toEqual(50); // 10 from first year + 2*20 from trip 2. --> Still have to check how fast ship return back.
-     expect(resultOfAllYear[resultOfAllYear.length -1].yearLaunch).toEqual(expectedCrew);
+     expect(resultOfAllYear[2].cummulativeLife + resultOfAllYear[2].martian).toEqual(30); // 10 from first year + 2*20 from trip 2.
+     expect(resultOfAllYear[resultOfAllYear.length -2].yearLaunch).toEqual(expectedCrew); // loop is over so we dont need to know if they succede or die or how many make it.
    });
 
    it('test Ship increase with no faillure', () => {
@@ -227,9 +223,8 @@ sumObj = ( obj ) => {
      parameters.itsIncreaseOf = 10; //10 new ship per time with 100% success.
      let startPoint = dataStructure.blankYear();
 
-     startPoint.earthFleet.push(dataStructure.newShip());
-
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 3, 10000, 1);
+     console.log(resultOfAllYear);
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
     //  Start with 1, then 1 return, we add 10 = 11 --> Mars should have 11 landed.
      expect(lastYear.marsFleet.length).toEqual(11);
@@ -244,8 +239,6 @@ sumObj = ( obj ) => {
      parameters.reusabilityOfShip = 1;
 
      let startPoint = dataStructure.blankYear();
-
-     startPoint.earthFleet.push(dataStructure.newShip());
 
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 10, 10000, 1);
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
@@ -262,8 +255,6 @@ sumObj = ( obj ) => {
 
      let startPoint = dataStructure.blankYear();
 
-     startPoint.earthFleet.push(dataStructure.newShip());
-
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 10, 10000, 1);
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
     //  Since it take 2 sequence to have a ship reused at year 10 Mars send back Sequence 9 + Sequence 7 (Confusing I know, see Readme ;)
@@ -277,8 +268,6 @@ sumObj = ( obj ) => {
      parameters.probIncreaseProdOfIts = 0;
      parameters.itsIncreaseOf = 1; //1 new ship per time with 0% success. --> No new ship
      let startPoint = dataStructure.blankYear();
-
-     startPoint.earthFleet.push(dataStructure.newShip());
 
      let resultOfAllYear = calc.iterateThat([startPoint], parameters, 10, 10000, 1);
      lastYear = resultOfAllYear[resultOfAllYear.length - 1];
