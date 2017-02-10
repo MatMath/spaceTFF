@@ -37,6 +37,7 @@ const mapStateToProps = state => {
       years: state.baseParam.paramRun.years,
       resultOfgrowth: state.calculatedData.resultOfgrowth,
       savedBackup: state.calculatedData.savedBackup,
+      fetching: state.calculatedData.fetching,
       shipConfigurationHelp: ['Reusability of ship: Number of trip a ship can do before being recycled',
       'First Stage Engine: Number of Engine that lift the first stage',
       'ITS Engine: Number of engine inside the Interplanettery Transport System',
@@ -92,8 +93,10 @@ class App extends React.Component {
     this.props.dispatch(change_baseParam_paramServer_persPerShip(value, this.props.cargo, this.props.maxPersPerShip));
   }
   getGrowthProjection() {
-    // TODO: A reorganisation of only the data we need to send is good idea instead of the growing list data.
-    this.props.dispatch(getGrowthProjection(localAddress, this.props));
+    if (this.props.fetching === false) {
+      // TODO: A reorganisation of only the data we need to send is good idea instead of the growing list data.
+      this.props.dispatch(getGrowthProjection(localAddress, this.props));
+    }
   }
   saveThisBackup() {
     const backup = Object.assign([], this.props.resultOfgrowth);
@@ -379,8 +382,8 @@ class App extends React.Component {
         </div>
 
         <div className={`row ${styles.submit_btn}`}>
-          <button className={'btn btn-lg btn-success'} onClick={this.getGrowthProjection}>Get the Data!</button>
-          <button className={'btn btn-lg btn-warning'} onClick={this.saveThisBackup}>Save a backup</button>
+          <button className={'btn btn-lg btn-success'} disabled={this.props.fetching} onClick={this.getGrowthProjection}>Get the Data!</button>
+          <button className={'btn btn-lg btn-warning'} disabled={this.props.fetching} onClick={this.saveThisBackup}>Save a backup</button>
         </div>
 
         {/* Table display can be here since it is a Dumb component */}

@@ -8,16 +8,24 @@ const calculatedData = (state={
   shipProduction: [],
   fleetSize: [],
   currentBackup: [],
-  displayGraph: ''
+  displayGraph: '',
+  fetching: false
 }, action) => {
   // switch statement here
     switch (action.type) {
+      case 'FETCHED_STARTING' : {
+        return {...state, fetching: true };
+      }
+      case 'FETCHED_SERVERPARAM_FAILED' : {
+        return {...state, fetching: false };
+      }
       case 'FETCHED_SERVERGROWTH' : {
         let objToReturn = {...state,
           deathRatio: [],
           shipLossArray: [],
           shipProduction: [],
           fleetSize: [],
+          fetching: false,
           resultOfgrowth: [...action.payload]
         };
         // For User experience wise if the user selected a graph and do a new run

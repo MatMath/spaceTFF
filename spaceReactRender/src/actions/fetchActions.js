@@ -1,5 +1,6 @@
 export function getGrowthProjection (HTTP_SERVER, param) {
   return function(dispatch) {
+    dispatch( { type: 'FETCHED_STARTING'} );  // so the user dosent monkey click 10 time to get a run of 1000 items at once. 
     fetch(HTTP_SERVER+'/results',{
     method: 'POST',
     headers: {
