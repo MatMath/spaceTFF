@@ -231,9 +231,12 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
   }
 
   // The Generic data start with a fleet of 0, Good. but we need to add one here before calculating the number of people that reach destination on next round.
-  startingData[startingData.length - 1].currentYearItsProd = shipProduction;
-  for (var i = 0; i < shipProduction; i++) {
-    startingData[startingData.length - 1].earthFleet.push(data.newShip());
+  if (startingData.length === 1) {
+    // We have a Blank Structure so Construct Ship and send them.
+    startingData[startingData.length - 1].currentYearItsProd = shipProduction;
+    for (var i = 0; i < shipProduction; i++) {
+      startingData[startingData.length - 1].earthFleet.push(data.newShip());
+    }
   }
 
   // We need to set that here because the Crew will depart with the Earth Fleet just added and go trough testing and then arrive at loop X+1;
@@ -249,7 +252,14 @@ calc.iterateThat = (startingData, param, maxIter, maxNbr, shipProduction) => {
   // startingData[startingData.length - 1].shipLoss += startingData[startingData.length - 2].shipLoss;
 
   // For next round we will have more ship produce or not
-  if(calc.shouldItFail(1, 1 - param.probIncreaseProdOfIts)) { shipProduction += param.itsIncreaseOf; }
+  if(calc.shouldItFail(1, 1 - param.probIncreaseProdOfIts)) {
+    shipProduction += param.itsIncreaseOf;
+  }
+  
+  startingData[startingData.length - 1].currentYearItsProd = shipProduction;
+  for (var i = 0; i < shipProduction; i++) {
+    startingData[startingData.length - 1].earthFleet.push(data.newShip());
+  }
 
   // Add Improvement of technology.
   return calc.iterateThat(startingData, improveParam(param), maxIter, maxNbr, shipProduction);
