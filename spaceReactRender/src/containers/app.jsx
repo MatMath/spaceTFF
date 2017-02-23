@@ -95,7 +95,26 @@ class App extends React.Component {
   getGrowthProjection() {
     if (this.props.fetching === false) {
       // TODO: A reorganisation of only the data we need to send is good idea instead of the growing list data.
-      this.props.dispatch(getGrowthProjection(localAddress, this.props));
+      let serverData = {
+        persPerShip: this.props.persPerShip,
+        cargo: this.props.cargo,
+        persIncreasePertrip: this.props.persIncreasePertrip,
+        maxPersPerShip: this.props.maxPersPerShip,
+        engineMalfunction: this.props.engineMalfunction,
+        refuilingDefect: this.props.refuilingDefect,
+        landingFaillure: this.props.landingFaillure,
+        reusabilityOfShip: this.props.reusabilityOfShip,
+        improvement: this.props.improvement,
+        firstStageEngine: this.props.firstStageEngine,
+        itsEngine: this.props.itsEngine,
+        touristRatio: this.props.touristRatio,
+        orbitRefulling: this.props.orbitRefulling,
+        probIncreaseProdOfIts: this.props.probIncreaseProdOfIts,
+        itsIncreaseOf: this.props.itsIncreaseOf,
+        maxPop: this.props.maxPop,
+        years: this.props.years
+      };
+      this.props.dispatch(getGrowthProjection(localAddress, serverData));
     }
   }
   saveThisBackup() {
